@@ -2,6 +2,17 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const db = require('../models/db')
+const jwt = require('jsonwebtoken')
+const {secretKey} = require('../config')
+
+
+const generateAccessToken = (id, role) => {
+    const payload = {
+        id,
+        role
+    }
+    return jwt.sign(payload,secretKey, {expiresIn:'24h'}) 
+}
 
 
 router.get('',(req, res)=>{
@@ -21,7 +32,7 @@ router.get('',(req, res)=>{
             }
             if(results){
 
-                // проверкаесть ли бд уже такой пользователь
+                // проверкаесть ли в  бд уже такой пользователь
                 if (results.length === 0) {
                     return res.status(401).json({message:'invalid user name or password'});
                 }
@@ -32,7 +43,11 @@ router.get('',(req, res)=>{
                 const match = await bcrypt.compare(password, user.password);
 
                 if (match) {
-                    return res.status(200).json(user);
+                    console.dir(user);                    
+                    const token = generateAccessToken(user.customer_id,user.role)
+                    console.log(token);
+
+                    return res.status(200).json({token});
                 } else {
                     return res.status(401).json({message:'invalid user name or password'});
                 }

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../models/db')
-
+const authMiddleware = require('../middleware/authMiddleware')
 
 
 router.get('/:category_id?', (req, res) => {
@@ -65,7 +65,7 @@ router.get('/:category_id?', (req, res) => {
         return res.status(200).json(result);
     });
 });
-router.patch('/:category_id?',(req, res)=>{
+router.patch('/:category_id?',authMiddleware,(req, res)=>{
     const categoryId = req.params.category_id;
 
     if(!categoryId){

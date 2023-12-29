@@ -10,9 +10,9 @@ const ordersRoutes = require('./routes/orders')
 const statisticRoutes = require('./routes/statistic')
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
 const app = express();
-
+// const cors = cors
 
 app.use(express.json())
 
