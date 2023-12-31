@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import styles from './login.module.scss';
 import { useNavigate } from 'react-router-dom'
+import { getUser } from '../../../api/loginAPI'
+import { UserContext } from '../../../context/userContext'
 
 
 interface LoginPageProps {
@@ -33,15 +35,9 @@ const LoginPage = ({ setAuthorizationIsActive }: LoginPageProps): JSX.Element =>
   });
 
   const onSubmit = (values: LoginFormValues) => {
-		// coming soon
-    console.log(values);
+		const response: Promise<UserContext| number> = getUser(values)
+		response.then(data=>console.log(data))
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit,
-  });
 
   return (
     <main className={styles.wrapper_login_page}>

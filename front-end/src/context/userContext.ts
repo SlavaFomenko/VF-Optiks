@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 
 // Определение типа контекста
-interface UserContext {
+export interface UserContext {
   token: string;
 	first_name:string;
 	last_name:string

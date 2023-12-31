@@ -16,7 +16,9 @@ const generateAccessToken = (id, role) => {
 
 
 router.get('',(req, res)=>{
-    const { login, password } = req.body;
+
+    console.log(req.query);
+    const { login, password } = req.query;
 
 
     if(!login || !password){

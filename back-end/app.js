@@ -8,14 +8,15 @@ const statusRoutes = require('./routes/statuses')
 const productsRoutes = require('./routes/products')
 const ordersRoutes = require('./routes/orders')
 const statisticRoutes = require('./routes/statistic')
+const cors = require('cors')
 
 
 const PORT = process.env.PORT || 3001;
 const app = express();
-// const cors = cors
+
 
 app.use(express.json())
-
+app.use(cors())
 
 app.use('/customers/login',customersLoginRoutes);
 app.use('/customers',customerRoutes);
