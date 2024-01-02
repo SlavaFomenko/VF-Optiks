@@ -36,7 +36,7 @@ router.get('',(req, res)=>{
 
                 // проверкаесть ли в  бд уже такой пользователь
                 if (results.length === 0) {
-                    return res.status(401).json({message:'invalid user name or password'});
+                    return res.status(404).json({message:'invalid user name or password'});
                 }
 
                 const user = results[0];
@@ -48,8 +48,13 @@ router.get('',(req, res)=>{
                     console.dir(user);                    
                     const token = generateAccessToken(user.customer_id,user.role)
                     console.log(token);
+                    const data = {
+                        token:token,
+                        first_name:user.first_name,
+                        last_name:user.last_name,
+                    }
 
-                    return res.status(200).json({token});
+                    return res.status(200).json(data);
                 } else {
                     return res.status(401).json({message:'invalid user name or password'});
                 }

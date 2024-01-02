@@ -89,6 +89,8 @@ router.get('/:customer_id?', async (req, res) => {
 router.post('',async (req, res)=> {
     const {login, first_name,last_name,password,tel_number,role} = req.body;
 
+    console.log(req.body);
+
     if(!login || !first_name || !last_name || !password || !tel_number ){
         return res.status(400).json({message:'invalid request'})
     }

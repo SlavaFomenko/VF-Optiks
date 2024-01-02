@@ -1,15 +1,12 @@
 import React, { createContext } from 'react';
 
 // Определение типа контекста
-export interface UserContext {
+interface UserContext {
   token: string;
 	first_name:string;
 	last_name:string
 }
-
-
-// {token:'im token',first_name:"slava",last_name:'fomenko'}
-// Создание контекста
+//! {token:'im token',first_name:"slava",last_name:'fomenko'}
 const UserContext = createContext<UserContext | null>(null);
 
 export default UserContext

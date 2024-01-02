@@ -1,13 +1,17 @@
 import axios, { AxiosResponse,AxiosError } from 'axios'
 import { URL_LOGIN } from '../config/config';
-import { UserContext } from '../context/userContext'
+// import {  } from '../context/userContext'
 
 interface GetUser {
 	login: string;
 	password: string;
 }
-
-export const getUser = async({ login, password }: GetUser): Promise<UserContext| number>=> {
+interface UserData {
+  token: string;
+	first_name:string;
+	last_name:string
+}
+export const getUser = async({ login, password }: GetUser): Promise<UserData | number>=> {
 
 	const params = {
 		login: login,
@@ -15,8 +19,8 @@ export const getUser = async({ login, password }: GetUser): Promise<UserContext|
 	};
 
   try {
-    const response: AxiosResponse<UserContext> = await axios.get(URL_LOGIN, { params });
-    return response.data;
+    const response: AxiosResponse<UserData> = await axios.get(URL_LOGIN, { params });
+		return response.data;
   } catch (error: AxiosError | any){
 		console.error('Error:', error);
     return error.response ? error.response.status : 500;

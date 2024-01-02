@@ -1,14 +1,15 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { getUser } from '../../api/loginAPI';
-import { UserContext } from '../../context/userContext';
+import UserContext from '../../context/userContext';
 import styles from './login.module.scss';
 
 
 interface LoginPageProps {
-  setAuthorizationIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setUser: React.Dispatch<React.SetStateAction<UserContext | null>>,
+  setAuthorizationIsActive: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface LoginFormValues {
@@ -16,13 +17,13 @@ interface LoginFormValues {
   password: string;
 }
 
-const LoginPage = ({ setAuthorizationIsActive }: LoginPageProps): JSX.Element => {
-  const navigate = useNavigate();
+const LoginPage = ({ setUser,setAuthorizationIsActive }: LoginPageProps): JSX.Element => {
+  const [error404, setError404] = useState<boolean>(false);
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    setAuthorizationIsActive(true);
-    return () => setAuthorizationIsActive(false);
-  }, []);
+  useEffect(()=>{
+    setAuthorizationIsActive(true)
+  })
 
   const initialValues: LoginFormValues = {
     login: '',
@@ -34,28 +35,41 @@ const LoginPage = ({ setAuthorizationIsActive }: LoginPageProps): JSX.Element =>
     password: Yup.string().required('Введите пароль'),
   });
 
-  const onSubmit = (values: LoginFormValues) => {
-		const response: Promise<UserContext| number> = getUser(values)
-		response.then(data=>console.log(data))
+  const onSubmit = async(values: LoginFormValues,{resetForm}:FormikHelpers<LoginFormValues>) => {
+		const response = await getUser(values)
+    
+    if(typeof response === 'number'){
+
+      if(response === 404){
+        setError404(true);
+      }
+      console.error("Error status code = " + response);
+      resetForm();
+      return
+    }
+
+    setUser(response)
+    resetForm();
+    setAuthorizationIsActive(false)
+    navigate('/')
   };
 
   return (
     <main className={styles.wrapper_login_page}>
+      {error404 && <div className={styles.error_not_found}>Не вірний логін або пароль!</div>}
       <section className={styles.wrapper_login_form}>
         <h1>Авторизація</h1>
-
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={onSubmit}
-        >
+          onSubmit={onSubmit}>
           <Form className={styles.login_form}>
             <div className={styles.input_wrapper}>
-              <Field type='text' name='login' placeholder='Логін' className={styles.input} />
+              <Field type='text' name='login' placeholder='Логін' className={styles.input} onClick={()=>setError404(false)} />
               <ErrorMessage name="login" component="div" className={styles.error_message} />
             </div>
             <div className={styles.input_wrapper}>
-              <Field type='password' name='password' placeholder='Пароль' className={styles.input} />
+              <Field type='password' name='password' placeholder='Пароль' className={styles.input} onClick={()=>setError404(false)}/>
               <ErrorMessage name="password" component="div" className={styles.error_message} />
             </div>
             <button type='submit'>Увійти</button>

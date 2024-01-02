@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-router": "^5.1.20",
     "axios": "^1.6.3",
     "classnames": "^2.5.1",
     "formik": "^2.4.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.21.1",
     "react-scripts": "^5.0.1",
     "sass": "^1.69.6",
@@ -39,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-dom": "^18.2.18"
+    "@types/react-dom": "^18.2.18",
+    "@types/react-input-mask": "^3.0.5"
   }
 }
