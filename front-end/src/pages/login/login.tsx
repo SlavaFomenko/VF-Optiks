@@ -1,10 +1,10 @@
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { getUser } from '../../api/loginAPI';
+import { UserContext } from '../../context/userContext';
 import styles from './login.module.scss';
-import { useNavigate } from 'react-router-dom'
-import { getUser } from '../../../api/loginAPI'
-import { UserContext } from '../../../context/userContext'
 
 
 interface LoginPageProps {

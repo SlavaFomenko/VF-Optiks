@@ -1,13 +1,12 @@
 // import './App.css';
+import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import styles from './App.module.scss'
 import Header from './components/header/header'
+import HomePage from './pages/general/home'
+import StorePage from './pages/store/store'
 import UserContext from './context/userContext'
-import HomePage from './components/main/general/home'
-import StorePage from './components/main/store/store'
-import AboutPage from './components/main/about/about'
-import LoginPage from './components/authorization/login/login'
-import { useState } from 'react'
+import LoginPage from './pages/login/login'
 
 function App() {
 
