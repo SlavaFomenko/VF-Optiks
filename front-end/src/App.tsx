@@ -11,8 +11,9 @@ import RegistrationPage from './pages/registration/registration'
 import AboutPage from './pages/about/about'
 // import  useHistory  from 'react-router-dom'
 
+
 function App() {
-  const [user,setUser] = useState<UserContext | null>(null)
+  const [user,setUser] = useState<UserContext | null>({token:"asdad",login:'admin',first_name:"Viacheslav",last_name:"Fomenko"})
   const [authorizationIsActive , setAuthorizationIsActive] = useState<boolean>(false)
   // const history = useHistory();
 

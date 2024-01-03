@@ -83,7 +83,25 @@ router.get('/:customer_id?', async (req, res) => {
             return res.status(404).json({ error: 'no categories found' });
         }
 
-        return res.status(200).json(result);
+        // result = JSON.parse(result)
+        const data = [];
+        result.forEach(user => {
+            data.push({
+                customer_id: user.customer_id,
+                login: user.login,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                tel_number: user.tel_number,
+                role: user.role
+            });
+        });
+        
+
+        
+        
+        console.log(data);
+
+        return res.status(200).json(data);
     });
 });
 router.post('',async (req, res)=> {

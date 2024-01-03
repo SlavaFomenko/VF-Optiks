@@ -50,6 +50,7 @@ router.get('',(req, res)=>{
                     console.log(token);
                     const data = {
                         token:token,
+                        login:user.first_name,
                         first_name:user.first_name,
                         last_name:user.last_name,
                     }

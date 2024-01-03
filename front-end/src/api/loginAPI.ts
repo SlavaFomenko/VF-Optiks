@@ -7,8 +7,9 @@ interface GetUser {
 	password: string;
 }
 interface UserData {
-  token: string;
-	first_name:string;
+  token: string,
+	login:string,
+	first_name:string,
 	last_name:string
 }
 export const getUser = async({ login, password }: GetUser): Promise<UserData | number>=> {

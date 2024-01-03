@@ -1,0 +1,34 @@
+.wrapper_menu{
+	position: absolute;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	border: 2px solid #000;
+	width: 200px;
+	height: auto;
+	top:80px;
+	right: 100px;
+	border-radius: 20px;
+
+	ul{
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+
+		li{
+			padding: 0 10px;
+			width: 100%;
+			padding: 10px;
+			border-bottom: 2px solid gray;
+		}
+		li:last-child{
+			border: none;
+		}
+		li:hover{
+			font-size: 120%;
+			cursor: pointer;
+		}
+	}
+}
+
