@@ -1,13 +1,22 @@
-import React, { createContext } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
 
-// Определение типа контекста
-interface UserContext {
+export interface User {
   token: string;
-	login:string;
-	first_name:string;
-	last_name:string;
+  login: string;
+  first_name: string;
+  last_name: string;
+  role: string;
+  tel_number: string;
 }
-//! {token:'im token',first_name:"slava",last_name:'fomenko'}
-const UserContext = createContext<UserContext | null>(null);
 
-export default UserContext
+interface UserContext {
+  user: User | null;
+  setUser: (user: User|null) => void;
+}
+
+const UserContext = createContext<UserContext | null>(null);
+export default UserContext;
+
+
+
+

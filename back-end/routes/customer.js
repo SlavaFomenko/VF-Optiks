@@ -83,7 +83,6 @@ router.get('/:customer_id?', async (req, res) => {
             return res.status(404).json({ error: 'no categories found' });
         }
 
-        // result = JSON.parse(result)
         const data = [];
         result.forEach(user => {
             data.push({

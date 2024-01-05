@@ -1,0 +1,14 @@
+.wrapper{
+
+	display: grid;
+	grid-template-columns: 0.2fr 1fr;
+	grid-auto-rows: 1fr;
+
+	menu{
+		background-color: green;
+	}
+	section{
+		background-color: red;
+	}
+
+}

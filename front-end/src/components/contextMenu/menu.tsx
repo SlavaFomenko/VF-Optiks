@@ -1,8 +1,8 @@
 
-import { useContext, useEffect, useState } from 'react'
+import { useContext} from 'react'
 import styles from './menu.module.scss'
 import UserContext from '../../context/userContext'
-import { getUserByLogin } from '../../api/customerAPI'
+import { useNavigate } from 'react-router'
 
 
 enum Roles {
@@ -12,39 +12,16 @@ enum Roles {
 
 const Menu = ():JSX.Element => {
 	
-	const [role,setRole] = useState<Roles>(Roles.user) 
-	
-	const userContext = useContext(UserContext)
+	const user = useContext(UserContext)
+	const navigate = useNavigate()
 
-	useEffect(()=>{ //! запрос при каждом открытии меню **/*****
-    const fetchData = async () => {
-      if (userContext != null) {
-        try {
-          const user = await getUserByLogin(userContext.login);
-					
-					if(user[0].role  === Roles.admin){
-						setRole(Roles.admin)
-					} else {
-						setRole(Roles.user)
-					}
-
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-					setRole(Roles.user)
-        }
-      }
-    };
-
-    fetchData();
-  }, [userContext]);
-	
 	return(
 		<menu className={styles.wrapper_menu}>
 			<ul>
-				<li>Корзина</li>
-				<li>Профіль</li>
-				{role === Roles.admin?<li>Адмін панель</li>:''} 
-				<li>Вийти</li>
+				<li onClick={()=>navigate('profile')}>Профіль</li>
+				<li onClick={()=>navigate('/cart')}>Корзина</li>
+				{user?.user && user.user.role === Roles.admin?<li onClick={()=>navigate('/admin-panel')}>Адмін панель</li>:''} 
+				<li onClick={()=>{user?.setUser(null);navigate('/')}}>Вийти</li>
 			</ul>
 		</menu>
 	)

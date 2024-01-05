@@ -1,0 +1,24 @@
+.wrapper{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap:130px;
+	span{
+		font-weight: 900;
+		font-size: 250%;
+	}
+	button{
+		font-weight: 600;
+		background-color: transparent;
+		padding: 20px;
+		font-size: 130%;
+		border: 2px solid #000;
+		border-radius: 150px;
+		transition: 0.2s linear;
+	}
+	button:hover{
+		background-color: #000;
+		color: white;
+	}
+}

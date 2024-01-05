@@ -7,8 +7,8 @@ import Menu from '../contextMenu/menu';
 
 
 const Header = (): JSX.Element => {
-  const userContext = useContext(UserContext);
-  const [menuIsActive, setMenuIsActive] = useState<boolean>(true);
+  const user = useContext(UserContext);
+  const [menuIsActive, setMenuIsActive] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -44,10 +44,10 @@ const Header = (): JSX.Element => {
         </ul>
       </nav>
       <div className={styles.user} ref={menuRef}>
-        {userContext ? (
+        {user?.user ? (
           <>
             <a>
-              {userContext.first_name} {userContext.last_name}{' '}
+              {user.user.first_name} {user.user.last_name}{' '}
             </a>
             <button onClick={() => setMenuIsActive(!menuIsActive)} className={styles.menu_btn_icon_wrapper}></button>
           </>

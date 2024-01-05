@@ -1,35 +1,81 @@
 // import './App.css';
-import { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { useContext, useEffect, useState } from 'react'
+import { Outlet, Route, Routes } from 'react-router-dom'
 import styles from './App.module.scss'
 import Header from './components/header/header'
 import HomePage from './pages/general/home'
 import StorePage from './pages/store/store'
-import UserContext from './context/userContext'
+import UserContext, { User } from './context/userContext';
 import LoginPage from './pages/login/login'
 import RegistrationPage from './pages/registration/registration'
 import AboutPage from './pages/about/about'
+import AdminPanel from './pages/admin-panel/adminPanel'
+import ProfilePage from './pages/profile/profile'
+import CartPage from './pages/cart/cart'
+import NotFoundPage from './pages/notFound/notFound'
+import { TabContent } from './components/wrapper-adm-panel-tab/wrapper-admin-panel-tab.modules'
+import AdmCategories from './pages/admin-panel/adm-categories/adm-categories'
+import AdmProducts from './pages/admin-panel/adm-products/adm-products'
+import AdmCustomers from './pages/admin-panel/adm-customers/adm-customers'
+import AdmManufacturers from './pages/admin-panel/adm-manufacturers/adm-manufacturers'
+import AdmOrders from './pages/admin-panel/adm-orders/adm-orders'
+import { PrivateRoute } from './utils/routes/PrivateRoutes'
+
+
+
+
 // import  useHistory  from 'react-router-dom'
 
 
+
 function App() {
-  const [user,setUser] = useState<UserContext | null>({token:"asdad",login:'admin',first_name:"Viacheslav",last_name:"Fomenko"})
+
+
+  const storedUser = sessionStorage.getItem('user');
+  const initialUser: User | null = 
+    storedUser !== undefined && storedUser !== null 
+    ? 
+    JSON.parse(storedUser) 
+    :
+     null;
+  
+  const [user,setUser] = useState<User | null>(initialUser)
+
+  useEffect(()=>{
+    sessionStorage.setItem('user',JSON.stringify(user))
+  },[user])
+
   const [authorizationIsActive , setAuthorizationIsActive] = useState<boolean>(false)
-  // const history = useHistory();
+
 
   return (
-    <div className={styles.App}>
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={{ user, setUser: setUser }} >
+        <div className={styles.App}>
         {(window.location.pathname !== '/login' && window.location.pathname!=='/registration' && !authorizationIsActive) ? <Header/>:''}
         <Routes>
           <Route path='/' element={<HomePage/>}/>
-          <Route path='/store' element={<StorePage/>}/>
-          <Route path='/about' element={<AboutPage/>}/>
-          <Route path='/login' element={<LoginPage setAuthorizationIsActive={setAuthorizationIsActive} setUser={setUser}/>}/>
-          <Route path='/registration' element={<RegistrationPage/>}/>
+          <Route path='store' element={<StorePage/>}/>
+          <Route path='about' element={<AboutPage/>}/>
+          <Route path='login' element={<LoginPage setAuthorizationIsActive={setAuthorizationIsActive} />}/>
+          <Route path='registration' element={<RegistrationPage/>}/>
+          <Route element={<PrivateRoute/>}>
+            <Route path='admin-panel/*' element={<AdminPanel/>}>
+              <Route path=" " element={<TabContent><section>Виберіть пункт меню</section></TabContent>} />
+  			      <Route path="categories" element={<TabContent><AdmCategories /></TabContent>} />
+  			      <Route path="products" element={<TabContent><AdmProducts/></TabContent>} />
+  			      <Route path="orders" element={<TabContent><AdmOrders/></TabContent>} />
+  			      <Route path="users" element={<TabContent><AdmCustomers/></TabContent>} />
+  			      <Route path="manufacturers" element={<TabContent><AdmManufacturers/></TabContent>} />
+				      <Route path="*" element={<Outlet />} />
+            </Route>
+          </Route>
+          <Route path='cart' element={<CartPage/>}/>
+          <Route path='profile' element={<ProfilePage/>}/>
+
+          <Route path='*' element={<NotFoundPage/>}/>
         </Routes>
+        </div>
       </UserContext.Provider>
-    </div>
   );
 }
 

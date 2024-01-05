@@ -8,7 +8,7 @@ import styles from './login.module.scss';
 
 
 interface LoginPageProps {
-  setUser: React.Dispatch<React.SetStateAction<UserContext | null>>,
+  // setUser: React.Dispatch<React.SetStateAction<UserContext | null>>,
   setAuthorizationIsActive: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -17,13 +17,16 @@ interface LoginFormValues {
   password: string;
 }
 
-const LoginPage = ({ setUser,setAuthorizationIsActive }: LoginPageProps): JSX.Element => {
+const LoginPage = ({ setAuthorizationIsActive }: LoginPageProps): JSX.Element => {
   const [error404, setError404] = useState<boolean>(false);
   const navigate = useNavigate()
-
+  const user = useContext(UserContext)
   useEffect(()=>{
     setAuthorizationIsActive(true)
-  })
+    return(()=>{
+      setAuthorizationIsActive(false)
+    })
+  },[])
 
   const initialValues: LoginFormValues = {
     login: '',
@@ -48,7 +51,7 @@ const LoginPage = ({ setUser,setAuthorizationIsActive }: LoginPageProps): JSX.El
       return
     }
 
-    setUser(response)
+    user?.setUser(response)
     resetForm();
     setAuthorizationIsActive(false)
     navigate('/')

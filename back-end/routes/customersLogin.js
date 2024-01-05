@@ -53,6 +53,8 @@ router.get('',(req, res)=>{
                         login:user.first_name,
                         first_name:user.first_name,
                         last_name:user.last_name,
+                        role:user.role,
+                        tel_number:user.tel_number
                     }
 
                     return res.status(200).json(data);
