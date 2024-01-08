@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../models/db')
 const authMiddleware = require('../middleware/authMiddleware')
+const knexDB = require('knex')
 
 
 router.get('/:category_id?', (req, res) => {
@@ -65,7 +66,7 @@ router.get('/:category_id?', (req, res) => {
         return res.status(200).json(result);
     });
 });
-router.patch('/:category_id?',authMiddleware,(req, res)=>{
+router.patch('/:category_id?',authMiddleware, async(req, res)=>{
     const categoryId = req.params.category_id;
 
     if(!categoryId){
@@ -100,19 +101,28 @@ router.patch('/:category_id?',authMiddleware,(req, res)=>{
     sqlQuery += ' WHERE category_id = ?';
     updateParams.push(categoryId);
 
-    db.query(sqlQuery, updateParams, (err) => {
-
+    db.query(sqlQuery, updateParams, async (err) => {
         if (err) {
-            if(err.code === 'ER_DUP_ENTRY'){
-                return res.status(409).json({message:`Category with name '${name}' already exists`})
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ message: `Category with name '${name}' already exists` });
             }
             return res.status(400).json({ error: 'invalid request' });
         }
-        res.status(200).json({ message: 'done' });
-    });
 
+        // Выполнение запроса для получения обновленной записи
+        const selectQuery = 'SELECT * FROM Categories WHERE category_id = ?';
+        db.query(selectQuery, [categoryId], (selectErr, result) => {
+            if (selectErr) {
+                return res.status(500).json({ error: 'error retrieving updated record' });
+            }
+
+            // Возвращение обновленной записи
+            res.status(200).json(result[0]);
+        });
+    });
 })
-router.delete('/:category_id?',(req, res)=>{
+
+router.delete('/:category_id?',authMiddleware,(req, res)=>{
     const { category_id } = req.params;
 
     if (category_id) {

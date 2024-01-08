@@ -62,11 +62,11 @@ function App() {
             <Route path='admin-panel/*' element={<AdminPanel/>}>
               <Route path=" " element={<TabContent><section>Виберіть пункт меню</section></TabContent>} />
   			      <Route path="categories" element={<TabContent><AdmCategories /></TabContent>} />
+				      {/* <Route path="*" element={<Outlet />} /> */}
   			      <Route path="products" element={<TabContent><AdmProducts/></TabContent>} />
   			      <Route path="orders" element={<TabContent><AdmOrders/></TabContent>} />
   			      <Route path="users" element={<TabContent><AdmCustomers/></TabContent>} />
   			      <Route path="manufacturers" element={<TabContent><AdmManufacturers/></TabContent>} />
-				      <Route path="*" element={<Outlet />} />
             </Route>
           </Route>
           <Route path='cart' element={<CartPage/>}/>

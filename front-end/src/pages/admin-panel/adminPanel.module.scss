@@ -5,10 +5,46 @@
 	grid-auto-rows: 1fr;
 
 	menu{
-		background-color: green;
+		border-right: 2px solid #000;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		padding-top: 20px ;
+		height: auto;
+		align-items: start;
+		overflow-y: scroll;
+		ul{
+			display: flex;
+			flex-direction: column;
+			justify-content: start;
+			gap: 10px;
+		}
 	}
 	section{
-		background-color: red;
+		padding: 20px;
+		overflow-y: scroll;
+		position: relative;
+		
+		ul{
+			font-family: monospace;
+			font-weight: 600;
+			font-size: 120%;
+			display: flex;
+			flex-direction: column;
+			gap:10px;
+			span:first-child { // за это мне стыдно :-)
+				width: 40px;
+			}
+			span:nth-child(2) {
+				text-wrap: nowrap;
+				overflow-y: scroll ;
+				width: 250px;
+			}
+			span:last-child {
+				text-wrap: nowrap;
+				overflow-y: scroll ;
+				width: 50vw;
+			}
+		}
 	}
-
 }
