@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
-import { deleteCategory, getCategory, patchCategory } from '../../../api/categoryAPI'
+import {
+  deleteCategory,
+  getCategory,
+  patchCategory,
+  postCategory,
+} from '../../../api/categoryAPI'
+import AdmCreateEntity from '../../../components/adm-create-entity/adm-create-entity'
 import EditingInput from '../../../components/editing-input/editing-input'
+import AdmSearchLine from '../../../components/search-line-adm/search-line'
 import styles from './adm-categories.module.scss'
 
 interface CategoriesState {
@@ -12,7 +19,7 @@ interface CategoriesState {
 const AdmCategories = (): JSX.Element => {
   const [categories, setCategories] = useState<CategoriesState[] | null>(null)
   // const [error409,setError409]= useState<>
-
+  console.log(categories);
   useEffect(() => {
     getCategory().then(res => {
       if (typeof res === 'number') {
@@ -25,8 +32,22 @@ const AdmCategories = (): JSX.Element => {
 
   return (
     <section className={styles.wrapper}>
+      <AdmSearchLine getData={getCategory} setData={setCategories} />
+      <AdmCreateEntity
+        mask={{ name: 'Назва', description: 'Опис' }}
+        postAPI={postCategory}
+        getData={(data: CategoriesState) => {
+          const newArr: CategoriesState[] | null = categories;
+        
+          if (newArr !== null) {
+            const updatedArr = [...newArr, data];
+            setCategories(updatedArr);
+          } else {
+            setCategories([data]);
+          }
+        }}
+      />
       <ul className={styles.block}>
-        {/* <li><span>N</span></li> */}
         <>
           <EditingInput
             mask={{ category_id: '№', name: 'Назва', description: 'Опис' }}
@@ -42,8 +63,8 @@ const AdmCategories = (): JSX.Element => {
                   }}
                   key={category.category_id}
                   dataProps={category}
-									patchData={patchCategory}
-									deleteData={deleteCategory}
+                  patchData={patchCategory}
+                  deleteData={deleteCategory}
                 />
               ))
             : ''}

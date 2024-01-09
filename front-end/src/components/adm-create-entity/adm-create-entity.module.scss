@@ -1,0 +1,61 @@
+.create_entity_form {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  height: auto;
+  background-color: white;
+  padding: 40px;
+  border: 2px solid #000;
+  border-radius: 50px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  form div {
+    // display: flex;
+    display: grid;
+    grid-template-columns: 0.3fr 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    gap: 5px;
+  }
+  form span {
+    // min-width: 130px;
+  }
+  form input {
+    background-color: none;
+    padding: 10px;
+    font-size: 90%;
+    border: 2px solid #000;
+    border-radius: 150px;
+    width: 100%;
+  }
+  button {
+    padding: 10px;
+    border-radius: 150px;
+    font-weight: 600;
+    border: 2px solid #000;
+    transition: 0.3s ease-in-out;
+  }
+  button:hover {
+    color: white;
+    background-color: rgb(56, 186, 56);
+  }
+  button:last-child:hover {
+    background-color: rgb(231, 78, 78);
+  }
+  h2{
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+.error_message {
+  grid-column: 2/3;
+
+  width: 100%;
+}
