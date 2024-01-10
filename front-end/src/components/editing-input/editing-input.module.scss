@@ -1,6 +1,5 @@
 .active{
 	padding:7px 10px;
-	// background-color: red;
 	border: 2px solid #000;
 	border-radius: 200px;
 	display: flex;
@@ -16,10 +15,6 @@
 		padding: 7px 10px;
 		span{
 			overflow-y: scroll;
-			
-			// border-left: 1px solid #000;
-			// border-right: 1px solid #000;
-			// background-color: green;
 		}
 	}
 	.buttons {
@@ -57,7 +52,10 @@
 	padding: 40px;
 	border: 2px solid #000;
 	border-radius: 50px;
-	
+	h2{
+		margin-bottom: 20px;
+		text-align: center;
+	}
 	form{
 		display: flex;
 		flex-direction: column;

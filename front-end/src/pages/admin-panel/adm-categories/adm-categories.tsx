@@ -19,7 +19,7 @@ interface CategoriesState {
 const AdmCategories = (): JSX.Element => {
   const [categories, setCategories] = useState<CategoriesState[] | null>(null)
   // const [error409,setError409]= useState<>
-  console.log(categories);
+  console.log(categories)
   useEffect(() => {
     getCategory().then(res => {
       if (typeof res === 'number') {
@@ -30,23 +30,28 @@ const AdmCategories = (): JSX.Element => {
     })
   }, [])
 
+  const addNewCategory = (data: CategoriesState) => {
+    const newArr: CategoriesState[] | null = categories
+
+    if (newArr !== null) {
+      const updatedArr = [...newArr, data]
+      setCategories(updatedArr)
+    } else {
+      setCategories([data])
+    }
+  }
+
   return (
     <section className={styles.wrapper}>
-      <AdmSearchLine getData={getCategory} setData={setCategories} />
-      <AdmCreateEntity
-        mask={{ name: 'Назва', description: 'Опис' }}
-        postAPI={postCategory}
-        getData={(data: CategoriesState) => {
-          const newArr: CategoriesState[] | null = categories;
-        
-          if (newArr !== null) {
-            const updatedArr = [...newArr, data];
-            setCategories(updatedArr);
-          } else {
-            setCategories([data]);
-          }
-        }}
-      />
+      <h1>Категорії</h1>
+      <div className={styles.options_wrapper}>
+        <AdmSearchLine getData={getCategory} setData={setCategories} />
+        <AdmCreateEntity
+          mask={{ name: 'Назва', description: 'Опис' }}
+          postAPI={postCategory}
+          getData={addNewCategory}
+        />
+      </div>
       <ul className={styles.block}>
         <>
           <EditingInput

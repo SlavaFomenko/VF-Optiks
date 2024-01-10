@@ -1,0 +1,41 @@
+.form {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 0.09fr;
+  grid-template-rows: 1fr;
+  input {
+    width: 1fr;
+    height: 100%;
+    padding: 7px 20px;
+    font-weight: 600;
+    font-size: 100%;
+    border: none;
+    background-color: transparent;
+    border-radius: 150px 0 0 150px;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-left: 2px solid #000;
+    // border:
+    // background-color: green;
+  }
+  input:focus {
+    outline: none;
+  }
+  button {
+    border-radius: 0 150px 150px 0;
+    height: 100%;
+    background-color: black;
+    color: white;
+    padding: 7px 10px;
+    font-weight: 600;
+    font-size: 100%;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-right: 2px solid #000;
+    transition: 0.3s ease-in-out;
+  }
+  button:hover {
+    background-color: white;
+    color: black;
+  }
+}

@@ -111,6 +111,7 @@ const EditingInput: React.FC<EditingInputProps> = ({
     </li>
   ) : isEditing ? (
     <li className={styles.not_active}>
+      <h2>Редагування</h2>
       <Formik
         initialValues={data}
         validationSchema={validationSchema}

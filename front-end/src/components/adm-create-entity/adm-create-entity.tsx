@@ -2,6 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { useContext, useState } from 'react'
 import UserContext from '../../context/userContext'
 import styles from './adm-create-entity.module.scss'
+import CreateEntityIMG from '../../images/admin-panel/create-entity-image.svg'
 
 interface AdmCreateEntityProps {
   mask: Record<string, string>
@@ -45,7 +46,6 @@ const AdmCreateEntity: React.FC<AdmCreateEntityProps> = ({
   }
 
   const onSubmit = async(value:Record<string,string>) => {
-    // console.log(value);
     await postAPI(value,user?.user?.token)
     .then(res=>{
       try{
@@ -55,8 +55,8 @@ const AdmCreateEntity: React.FC<AdmCreateEntityProps> = ({
           }
         } else {
           console.log(res);
-          
           getData(res)
+          setIsCreating(false)
         }
 
       }catch (err){
@@ -65,8 +65,8 @@ const AdmCreateEntity: React.FC<AdmCreateEntityProps> = ({
     })
   }
 
-  return isCreating ? (
-    <div className={styles.create_entity_form}>
+  return isCreating ? (<>
+      <div className={styles.create_entity_form}>
       <h2>Створити запис</h2>
       <Formik
         initialValues={initialValues}
@@ -80,9 +80,13 @@ const AdmCreateEntity: React.FC<AdmCreateEntityProps> = ({
         </Form>
       </Formik>
     </div>
+    <button onClick={() => setIsCreating(true)} className={styles.button}>
+      <img src={CreateEntityIMG} alt="dsf" />
+    </button>
+    </>
   ) : (
-    <button onClick={() => setIsCreating(true)} className={styles.wrapper}>
-      +
+    <button onClick={() => setIsCreating(true)} className={styles.button}>
+      <img src={CreateEntityIMG} alt="dsf" />
     </button>
   )
 }

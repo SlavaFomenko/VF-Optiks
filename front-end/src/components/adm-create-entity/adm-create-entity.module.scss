@@ -24,6 +24,7 @@
     align-items: center;
     gap: 5px;
   }
+  
   form span {
     // min-width: 130px;
   }
@@ -56,6 +57,24 @@
 }
 .error_message {
   grid-column: 2/3;
-
+  
   width: 100%;
+}
+
+
+.button{
+  height: 50px;
+  width: 100%;
+  border-radius: 150px;
+  border: 3px solid black;
+  img{
+    transition: 0.2s ease-in-out;
+    max-width: 100%;
+    max-height: 100%;
+  }  
+}
+.button:hover{ 
+  img{
+    transform:scale(150%,150%);
+  }
 }

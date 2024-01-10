@@ -1,3 +1,15 @@
-.block{
-	// background-color: ;
+.wrapper{
+	.options_wrapper{
+		// display: flex;
+		display: grid;
+		gap: 10px;
+		grid-template-columns: 1fr 50px;
+		grid-template-rows: 1fr;
+
+		height: 50px;
+		margin-bottom:10px;
+		width: 100%;
+		overflow: hidden;
+
+	}
 }
