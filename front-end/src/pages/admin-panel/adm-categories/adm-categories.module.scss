@@ -1,6 +1,5 @@
 .wrapper{
 	.options_wrapper{
-		// display: flex;
 		display: grid;
 		gap: 10px;
 		grid-template-columns: 1fr 50px;
@@ -10,6 +9,18 @@
 		margin-bottom:10px;
 		width: 100%;
 		overflow: hidden;
-
+	}
+	.header{
+		padding: 5px 0;
+		position:sticky;
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: 2;
+		background-color: white;
+		h1{
+			padding:10px 0;
+			font-size: 190%;
+		}
 	}
 }

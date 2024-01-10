@@ -43,14 +43,17 @@ const AdmCategories = (): JSX.Element => {
 
   return (
     <section className={styles.wrapper}>
-      <h1>Категорії</h1>
-      <div className={styles.options_wrapper}>
-        <AdmSearchLine getData={getCategory} setData={setCategories} />
-        <AdmCreateEntity
-          mask={{ name: 'Назва', description: 'Опис' }}
-          postAPI={postCategory}
-          getData={addNewCategory}
-        />
+      <div className={styles.header}>
+        <h1>Категорії</h1>
+        <div className={styles.options_wrapper}>
+          <AdmSearchLine getData={getCategory} setData={setCategories} />
+          <AdmCreateEntity
+            mask={{ name: 'Назва', description: 'Опис' }}
+            postAPI={postCategory}
+            getData={addNewCategory}
+          />
+        </div>
+        
       </div>
       <ul className={styles.block}>
         <>

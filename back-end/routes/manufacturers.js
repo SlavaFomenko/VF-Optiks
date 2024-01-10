@@ -1,70 +1,62 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../models/db')
+const knex = require('../models/dbKnex')
+const authMiddleware = require('../middleware/authMiddleware')
 
 
-router.get('/:manufacturer_id?', (req, res) => {
-    const { manufacturer_id} = req.params;
 
-    if (manufacturer_id) {
-        db.query('SELECT * FROM Manufacturers WHERE manufacturer_id = ?', [manufacturer_id], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(400).json({error: 'invalid request'});
-            }
+router.get('/:manufacturer_id?', async (req, res) => {
+    const { manufacturer_id } = req.params;
+
+    try {
+        if (manufacturer_id) {
+            const result = await knex('Manufacturers').where('manufacturer_id', manufacturer_id);
             if (result.length === 0) {
-                return res.status(404).json({error: 'manufacruter not found'});
+                return res.status(404).json({ error: 'manufacturer not found' });
             }
             return res.status(200).json(result);
-        });
-
-        return;
-    }
-
-
-    if (Object.entries(req.query).length === 0) {
-        db.query('SELECT * FROM Manufacturers', (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(400).json({ error: 'invalid request' });
-            }
-            if (result.length === 0) {
-                return res.status(404).json({ error: 'invalid request' });
-            }
-            return res.status(200).json(result);
-        });
-        return;
-    }
-    const { name, country } = req.query;
-
-    let sqlQuery = 'SELECT * FROM Manufacturers WHERE';
-    const queryParams = [];
-
-    if (name) {
-        sqlQuery += " name = ? AND";
-        queryParams.push(name);
-    }
-
-    if (country) {
-        sqlQuery += " country = ? AND";
-        queryParams.push(country);
-    }
-
-    sqlQuery = sqlQuery.replace(/AND$/, '');
-
-    db.query(sqlQuery, queryParams, (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.status(400).json({ error: 'invalid request' });
         }
+
+        if (Object.keys(req.query).length === 0) {
+            const result = await knex('Manufacturers');
+            if (result.length === 0) {
+                return res.status(404).json({ error: 'no manufacturers found' });
+            }
+            return res.status(200).json(result);
+        }
+
+        const { name, country } = req.query;
+
+        const result = await knex('Manufacturers')
+            .where(builder => {
+                if (name) {
+                    builder.where('name', 'like', `%${name}%`);
+                }
+                if (Array.isArray(country)) {
+                    builder.whereIn('country', country);
+                } else if (country) {
+                    builder.andWhere('country', country);
+                }
+            });
+
         if (result.length === 0) {
             return res.status(404).json({ error: 'no manufacturers found' });
         }
+
         return res.status(200).json(result);
-    });
+    } catch (err) {
+        console.error(err);
+        return res.status(400).json({ error: 'invalid request' });
+    }
 });
-router.delete('',(req, res)=>{
-    const { manufacturer_id } = req.body;
+
+router.delete('/:manufacturer_id?',authMiddleware,(req, res)=>{
+
+    // console.log(req.query);
+    const { manufacturer_id } = req.params;
+
+    // console.log('hello');
 
     if (manufacturer_id) {
         let newManufacturer_id
@@ -114,24 +106,36 @@ router.delete('',(req, res)=>{
     return res.status(400).json({message:'invalid request'})
 
 });
-router.post('',(req, res)=>{
+router.post('',authMiddleware,(req, res)=>{
     const {name,country} = req.body
+
     if(name && country){
         const sqlQuery = "INSERT INTO Manufacturers (name, country) VALUE (?,?)"
-        db.query(sqlQuery,[name,country],(err)=>{
-            if(err){
-                if(err.code === 'ER_DUP_ENTRY'){
-                    return res.status(409).json({message:`Category with name '${name}' already exists`})
+        db.query(sqlQuery, [name,country], async err => {
+            if (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    return res
+                        .status(409)
+                        .json({ message: `Manufacturer with name '${name}' already exists` })
                 }
-                return res.status(400).json({message:`invalid request`})
+                return res.status(400).json({ error: 'invalid request' })
             }
-            return res.status(200).json({message: "done"})
+    
+            const selectQuery = 'SELECT * FROM Manufacturers WHERE name = ?'
+            db.query(selectQuery, [name], (selectErr, result) => {
+                if (selectErr) {
+                    return res
+                        .status(500)
+                        .json({ error: 'error retrieving updated record' })
+                }
+                res.status(200).json(result[0])
+            })
         })
     } else {
         res.status(400).json({message : 'invalid request'})
     }
 })
-router.patch('/:manufacturer_id?',(req, res)=>{
+router.patch('/:manufacturer_id?',authMiddleware,(req, res)=>{
     const {manufacturer_id}=req.params
         if(manufacturer_id){
             let newManufacturer_id
@@ -164,19 +168,26 @@ router.patch('/:manufacturer_id?',(req, res)=>{
 
             updateParams.push(newManufacturer_id)
 
-            db.query(sqlQuery, updateParams, (err, result) => {
+            db.query(sqlQuery, updateParams, async err => {
                 if (err) {
-                        console.log('hello')
-                    if(err.code === 'ER_DUP_ENTRY'){
-                        return res.status(409).json({ message: 'invalid request duplicate data' });
+                    if (err.code === 'ER_DUP_ENTRY') {
+                        return res
+                            .status(409)
+                            .json({ message: `Manufacturer with name '${name}' already exists` })
                     }
-                    return res.status(400).json({ message: 'invalid request' });
+                    return res.status(400).json({ error: 'invalid request' })
                 }
-                if(result.affectedRows >= 1){
-                    return res.status(200).json({message:"done"});
-                }else {
-                    return res.status(400).json({ message: 'invalid request' });
-                }
+        
+                // Выполнение запроса для получения обновленной записи
+                const selectQuery = 'SELECT * FROM Manufacturers WHERE manufacturer_id = ?'
+                db.query(selectQuery, [manufacturer_id], (selectErr, result) => {
+                    if (selectErr) {
+                        return res
+                            .status(500)
+                            .json({ error: 'error retrieving updated record' })
+                    }
+                    res.status(200).json(result[0])
+                })
             })
 
         }

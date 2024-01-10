@@ -8,10 +8,10 @@ return(
 			<menu>
 				<ul>
 					<MenuItem to="categories" title='Категорії'/>
+					<MenuItem to="manufacturers" title='Постачальники'/>
 					<MenuItem to="products" title='Товари'/>
 					<MenuItem to="users" title='Користувачі'/>
 					<MenuItem to="orders" title='Замовлення'/>
-					<MenuItem to="manufacturers" title='Постачальники'/>
 				</ul>
 			</menu>
 			<Outlet/>
