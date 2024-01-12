@@ -1,6 +1,7 @@
 import { Field, Form, Formik } from 'formik'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import styles from './search-line.module.scss'
+import UserContext from '../../context/userContext'
 
 type AnyFunction = (...args: any[]) => any
 
@@ -15,13 +16,15 @@ const AdmSearchLine: React.FC<AdmSearchLine> = ({
 }): JSX.Element => {
   const [isError, setIsError] = useState<boolean>(false)
 
+  const user = useContext(UserContext)
   const initialValues = {
-    name: '',
+    data: '',
   }
 
-  const onSubmit = async (values: { name: string }) => {
-    const data = values.name ? values.name : undefined
-    await getData(undefined, data) // знаю що це погано * из ****)
+  const onSubmit = async (values: { data: string }) => {
+    const data = values.data ? values.data : undefined
+    const token = user?.user? user.user.token:'token' 
+    await getData(token, undefined, data) // знаю що це погано * из ****)
       .then(res => {
         try {
           if (typeof res === 'number') {
@@ -47,7 +50,7 @@ const AdmSearchLine: React.FC<AdmSearchLine> = ({
           key='key'
           type='text'
           placeholder={'Введіть назву'}
-          name='name'
+          name='data'
         />
         <button type='submit'>Пошук</button>
       </Form>

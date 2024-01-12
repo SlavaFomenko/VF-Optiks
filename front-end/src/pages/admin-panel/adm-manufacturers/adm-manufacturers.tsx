@@ -11,6 +11,7 @@ import AdmCreateEntity from '../../../components/adm-create-entity/adm-create-en
 import EditingInput from '../../../components/editing-input/editing-input'
 import Filter from '../../../components/filter/filter'
 import AdmSearchLine from '../../../components/search-line-adm/search-line'
+import { array } from 'yup'
 
 interface ManufacturerState {
   manufacturer_id: number | string
@@ -26,39 +27,43 @@ const AdmManufacturers = (): JSX.Element => {
   // const [error409,setError409]= useState<>
   // console.log(manufacturers)
   useEffect(() => {
-    getManufacturer().then(res => {
-      if (typeof res === 'number') {
-        console.error(`status code ${res}`)
-      } else {
+    getManufacturer('token').then(res => {
+      if (Array.isArray(res)) { // Проверяем, что res является массивом
         setManufacturers(res)
-
+  
         const data: Record<string, string[]> = {}
-
-        res?.forEach((manufacturer: ManufacturerState) => {
+  
+        res.forEach((manufacturer: ManufacturerState) => {
           const country = manufacturer.country;
-        
+  
           if (!data.hasOwnProperty('Країни')) {
             data['Країни'] = [];
           }
-        
-          const uniqueCountriesSet = new Set(data['Країни']); // линийная сложность вместо квадратической ))
+  
+          const uniqueCountriesSet = new Set(data['Країни']); 
           uniqueCountriesSet.add(country);
           data['Країни'] = Array.from(uniqueCountriesSet);
         })
-        
+  
         setCountries(data);
+      } else {
+        console.error("Ошибка при получении производителей:", res);
+        // Можно добавить дополнительную обработку ошибок, если необходимо
       }
     })
   }, [])
 
-  const addNewManufacturer = (data: ManufacturerState[]) => {
+  const addNewManufacturer = (data: ManufacturerState) => {
     const newArr: ManufacturerState[] | null = manufacturers
-
     if (newArr !== null) {
-      setManufacturers(data)
-    }
+      console.log(data);
+      
+      setManufacturers([data])
+    } 
   }
-
+  // alert('hello')
+  // console.log(manufacturers);
+  
   return (
     <section className={styles.wrapper}>
       <div className={styles.header}>
@@ -91,7 +96,7 @@ const AdmManufacturers = (): JSX.Element => {
                 country: 'Країна',
               }}
             />
-            {manufacturers !== null
+            {Array.isArray(manufacturers)
               ? manufacturers.map(manufacturer => (
                   <EditingInput
                     mask={{

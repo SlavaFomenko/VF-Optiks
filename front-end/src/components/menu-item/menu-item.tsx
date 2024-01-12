@@ -7,6 +7,7 @@ interface MenuItemProps {
 	to:string
 }
 export const MenuItem:React.FC<MenuItemProps>= ({title,to}):JSX.Element =>{
+
 	return(
 		<li className={styles.wrapper}>
 			<Link to={to}>

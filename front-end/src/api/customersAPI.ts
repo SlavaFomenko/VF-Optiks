@@ -1,26 +1,47 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { URL_CATEGORIES } from '../config/config'
+import { URL_CUSTOMERS } from '../config/config'
 
-
-export interface CategoryInterface {
-  category_id: number | string
-  name: string
-  description: string
+export interface CustomerInterface {
+  customer_id: number | string
+  login: string
+  first_name: string
+  last_name: string
+  tel_number: string
+  role: 'user' | 'admin'
 }
 
-export const getCategory = async (
-  token:string,
+interface data {
+  role: string[]
+}
+
+export const getCustomer = async (
+  token: string,
   id?: string,
-  name?: string,
-): Promise<CategoryInterface[] | number> => {
-  console.log(name)
+  login?: string,
+  role?: data,
+): Promise<CustomerInterface[] | number> => {
+  const params = {
+    id: id,
+    login: login,
+    role: role?.['role'],
+  }
 
   try {
-    const response: AxiosResponse<CategoryInterface[]> = await axios.get(
-      URL_CATEGORIES,
-      { params: { id: id, name: name } },
+    const response: AxiosResponse<CustomerInterface[]> = await axios.get(
+      URL_CUSTOMERS,
+      {
+        params: {
+          id: id,
+          login: login,
+          role: role?.['role'],
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json', 
+        },
+      },
     )
-    console.log(response.config) // Вывод информации о запросе
+    console.log(response);
 
     return response.data
   } catch (error: AxiosError | any) {
@@ -35,14 +56,14 @@ export const getCategory = async (
   }
 }
 
-export const patchCategory = async (
+export const patchCustomer = async (
   data: object, //проблема типизиции **** из *****
-  category_id: number,
+  customer_id: number,
   token: string,
-): Promise<CategoryInterface | number> => {
+): Promise<CustomerInterface | number> => {
   try {
-    const response: AxiosResponse<CategoryInterface> = await axios.patch(
-      URL_CATEGORIES + `/${category_id}`,
+    const response: AxiosResponse<CustomerInterface> = await axios.patch(
+      URL_CUSTOMERS + `/${customer_id}`,
       data,
       {
         headers: {
@@ -64,15 +85,16 @@ export const patchCategory = async (
   }
 }
 
-export const deleteCategory = async (
+export const deleteCustomer = async (
   id: number,
   token: string,
 ): Promise<number> => {
   try {
     const response: AxiosResponse<number> = await axios.delete(
-      URL_CATEGORIES + `/${id}`,
+      URL_CUSTOMERS + `/${id}`,
       { headers: { Authorization: `Bearer ${token}` } },
     )
+    
     return response.status
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -86,18 +108,18 @@ export const deleteCategory = async (
   }
 }
 
-interface PostCategory {
+interface PostCustomer {
   name: string
-  description: string
+  country: string
 }
 
-export const postCategory = async (
-  data: PostCategory,
+export const postCustomer = async (
+  data: PostCustomer,
   token: string,
-): Promise<CategoryInterface | number> => {
+): Promise<CustomerInterface | number> => {
   try {
-    const response: AxiosResponse<CategoryInterface> = await axios.post(
-      URL_CATEGORIES,
+    const response: AxiosResponse<CustomerInterface> = await axios.post(
+      URL_CUSTOMERS,
       data,
       {
         headers: {

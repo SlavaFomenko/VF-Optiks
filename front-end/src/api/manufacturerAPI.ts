@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { URL_MANUFACTURERS } from '../config/config'
-import { string } from 'yup'
 
 export interface ManufacturerInterface {
   manufacturer_id: number | string
@@ -10,6 +9,7 @@ export interface ManufacturerInterface {
 
 interface data {"Країни":string[]}
 export const getManufacturer = async (
+  token:string,
   id?: string,
   name?:string, 
   data?: data,

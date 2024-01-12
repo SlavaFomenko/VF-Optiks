@@ -21,7 +21,7 @@ const AdmCategories = (): JSX.Element => {
   // const [error409,setError409]= useState<>
   console.log(categories)
   useEffect(() => {
-    getCategory().then(res => {
+    getCategory('token').then(res => {
       if (typeof res === 'number') {
         console.error(`status code ${res}`)
       } else {

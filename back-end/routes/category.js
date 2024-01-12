@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../models/db')
 const authMiddleware = require('../middleware/authMiddleware')
+const adminCheckMiddleware = require('../middleware/adminCheckMiddleware')
 
 router.get('/:category_id?', (req, res) => {
 	const { category_id } = req.params
@@ -66,7 +67,7 @@ router.get('/:category_id?', (req, res) => {
 		return res.status(200).json(result)
 	})
 })
-router.patch('/:category_id?', authMiddleware, async (req, res) => {
+router.patch('/:category_id?', adminCheckMiddleware, async (req, res) => {
 	const categoryId = req.params.category_id
 
 	if (!categoryId) {
@@ -125,7 +126,7 @@ router.patch('/:category_id?', authMiddleware, async (req, res) => {
 	})
 })
 
-router.delete('/:category_id?', authMiddleware, (req, res) => {
+router.delete('/:category_id?', adminCheckMiddleware, (req, res) => {
 	const { category_id } = req.params
 
 	if (category_id) {
@@ -173,7 +174,7 @@ router.delete('/:category_id?', authMiddleware, (req, res) => {
 
 	return res.status(400).json({ message: 'invalid request' })
 })
-router.post('',authMiddleware,(req, res) => {
+router.post('',adminCheckMiddleware,(req, res) => {
 	console.log('hello');
 	const { name, description } = req.body
 	if (name && description) {

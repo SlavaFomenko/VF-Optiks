@@ -3,6 +3,7 @@ const router = express.Router()
 const db = require('../models/db')
 const knex = require('../models/dbKnex')
 const authMiddleware = require('../middleware/authMiddleware')
+const adminCheckMiddleware = require('../middleware/adminCheckMiddleware')
 
 
 
@@ -51,7 +52,7 @@ router.get('/:manufacturer_id?', async (req, res) => {
     }
 });
 
-router.delete('/:manufacturer_id?',authMiddleware,(req, res)=>{
+router.delete('/:manufacturer_id?',adminCheckMiddleware,(req, res)=>{
 
     // console.log(req.query);
     const { manufacturer_id } = req.params;
@@ -106,7 +107,7 @@ router.delete('/:manufacturer_id?',authMiddleware,(req, res)=>{
     return res.status(400).json({message:'invalid request'})
 
 });
-router.post('',authMiddleware,(req, res)=>{
+router.post('',adminCheckMiddleware,(req, res)=>{
     const {name,country} = req.body
 
     if(name && country){
@@ -135,7 +136,7 @@ router.post('',authMiddleware,(req, res)=>{
         res.status(400).json({message : 'invalid request'})
     }
 })
-router.patch('/:manufacturer_id?',authMiddleware,(req, res)=>{
+router.patch('/:manufacturer_id?',adminCheckMiddleware,(req, res)=>{
     const {manufacturer_id}=req.params
         if(manufacturer_id){
             let newManufacturer_id
