@@ -40,9 +40,8 @@ const AdmCreateEntity: React.FC<AdmCreateEntityProps> = ({
 
 
   const onSubmit = async (value: Record<string, string>) => {
-    console.log(value);
     
-    await postAPI(value).then(res => {
+    await postAPI(user?.user?.token,value).then(res => {
       try {
         if (typeof res === 'number') {
           if (res === 409) {
@@ -114,12 +113,12 @@ const AdmCreateEntity: React.FC<AdmCreateEntityProps> = ({
         </Formik>
       </div>
       <button onClick={() => setIsCreating(true)} className={styles.button}>
-        <img src={CreateEntityIMG} alt='dsf' />
+        <img src={CreateEntityIMG} alt='+' />
       </button>
     </>
   ) : (
     <button onClick={() => setIsCreating(true)} className={styles.button}>
-      <img src={CreateEntityIMG} alt='dsf' />
+      <img src={CreateEntityIMG} alt='+' />
     </button>
   )
 }

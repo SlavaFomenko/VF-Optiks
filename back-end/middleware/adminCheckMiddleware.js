@@ -8,8 +8,6 @@ module.exports = function (req,res,next) {
     const token = req.headers.authorization.split(' ')[1]
 
 		const path = req.originalUrl.split('/').filter(element => Boolean(element))
-
-
 		
     if(!token){
       return res.status(401).json({message: 'Unauthorized'})

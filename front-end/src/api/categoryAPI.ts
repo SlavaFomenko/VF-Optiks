@@ -36,9 +36,9 @@ export const getCategory = async (
 }
 
 export const patchCategory = async (
+  token: string,
   data: object, //проблема типизиции **** из *****
   category_id: number,
-  token: string,
 ): Promise<CategoryInterface | number> => {
   try {
     const response: AxiosResponse<CategoryInterface> = await axios.patch(
@@ -65,8 +65,8 @@ export const patchCategory = async (
 }
 
 export const deleteCategory = async (
-  id: number,
   token: string,
+  id: number,
 ): Promise<number> => {
   try {
     const response: AxiosResponse<number> = await axios.delete(
@@ -92,10 +92,12 @@ interface PostCategory {
 }
 
 export const postCategory = async (
-  data: PostCategory,
   token: string,
+  data: PostCategory,
 ): Promise<CategoryInterface | number> => {
   try {
+    console.log(token);
+    
     const response: AxiosResponse<CategoryInterface> = await axios.post(
       URL_CATEGORIES,
       data,

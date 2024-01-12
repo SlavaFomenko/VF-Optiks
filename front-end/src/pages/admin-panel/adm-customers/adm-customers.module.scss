@@ -59,7 +59,31 @@
 			span:nth-child(2) {
 				text-wrap: nowrap;
 				overflow-y: scroll ;
-				width: 250px;
+				width: 120px;
+			}
+			span:nth-child(3) {
+				text-wrap: nowrap;
+				overflow-y: scroll ;
+				width: 150px;
+
+			}
+			span:nth-child(4) {
+				text-wrap: nowrap;
+				overflow-y: scroll ;
+				width: 100px;
+
+			}
+			span:nth-child(5) {
+				text-wrap: nowrap;
+				overflow-y: scroll ;
+				width: 200px;
+
+			}
+			span:nth-child(6) {
+				text-wrap: nowrap;
+				overflow-y: scroll ;
+				width: 100px;
+
 			}
 			span:last-child {
 				text-wrap: nowrap;

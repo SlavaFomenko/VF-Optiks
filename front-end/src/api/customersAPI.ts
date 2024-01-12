@@ -11,7 +11,7 @@ export interface CustomerInterface {
 }
 
 interface data {
-  role: string[]
+  ['Ролі']: string[]
 }
 
 export const getCustomer = async (
@@ -20,11 +20,8 @@ export const getCustomer = async (
   login?: string,
   role?: data,
 ): Promise<CustomerInterface[] | number> => {
-  const params = {
-    id: id,
-    login: login,
-    role: role?.['role'],
-  }
+  console.log(role);
+  
 
   try {
     const response: AxiosResponse<CustomerInterface[]> = await axios.get(
@@ -33,7 +30,7 @@ export const getCustomer = async (
         params: {
           id: id,
           login: login,
-          role: role?.['role'],
+          role: role?.['Ролі'],
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -41,8 +38,6 @@ export const getCustomer = async (
         },
       },
     )
-    console.log(response);
-
     return response.data
   } catch (error: AxiosError | any) {
     if (axios.isAxiosError(error)) {
@@ -57,11 +52,15 @@ export const getCustomer = async (
 }
 
 export const patchCustomer = async (
+  token: string,
   data: object, //проблема типизиции **** из *****
   customer_id: number,
-  token: string,
 ): Promise<CustomerInterface | number> => {
   try {
+
+
+    console.log(data);
+    
     const response: AxiosResponse<CustomerInterface> = await axios.patch(
       URL_CUSTOMERS + `/${customer_id}`,
       data,
@@ -86,14 +85,15 @@ export const patchCustomer = async (
 }
 
 export const deleteCustomer = async (
-  id: number,
   token: string,
+  id: number,
 ): Promise<number> => {
   try {
     const response: AxiosResponse<number> = await axios.delete(
       URL_CUSTOMERS + `/${id}`,
       { headers: { Authorization: `Bearer ${token}` } },
     )
+    console.log(response);
     
     return response.status
   } catch (error) {
@@ -114,10 +114,13 @@ interface PostCustomer {
 }
 
 export const postCustomer = async (
-  data: PostCustomer,
   token: string,
+  data: PostCustomer,
 ): Promise<CustomerInterface | number> => {
   try {
+    
+    console.log(token);
+
     const response: AxiosResponse<CustomerInterface> = await axios.post(
       URL_CUSTOMERS,
       data,
@@ -128,6 +131,8 @@ export const postCustomer = async (
         },
       },
     )
+    // console.log(response);
+    
     return response.data
   } catch (error: AxiosError | any) {
     if (axios.isAxiosError(error)) {

@@ -1,5 +1,7 @@
 import { Field, Form, Formik } from 'formik'
 import styles from './filter.module.scss'
+import { useContext } from 'react'
+import UserContext from '../../context/userContext'
 
 interface FilterProps<T> {
   options: Record<string, T[]> | null
@@ -12,6 +14,10 @@ const Filter: React.FC<FilterProps<string>> = ({
   setData,
   getData,
 }): JSX.Element => {
+
+  const user = useContext(UserContext)
+
+  
   const initializeFormValues = (
     options: Record<string, string[]>,
   ): Record<string, Record<string, boolean>> => {
@@ -39,9 +45,9 @@ const Filter: React.FC<FilterProps<string>> = ({
       }
     }
     console.log(data)
-    // console.log('hello');
+    console.log('hello');
 
-    await getData(undefined, undefined, data)
+    await getData(user?.user?.token,undefined, undefined, data)
       .then(res => setData(res))
       .catch(err => console.log(err))
   }

@@ -1,13 +1,13 @@
 import styles from './adm-customers.module.scss'
 
 import { useContext, useEffect, useState } from 'react'
-import { getCustomer, postCustomer } from '../../../api/customersAPI'
 import {
-	deleteManufacturer,
-	getManufacturer,
-	patchManufacturer,
-	postManufacturer,
-} from '../../../api/manufacturerAPI'
+  deleteCustomer,
+  getCustomer,
+  patchCustomer,
+  postCustomer,
+} from '../../../api/customersAPI'
+import { getManufacturer } from '../../../api/manufacturerAPI'
 import AdmCreateEntity from '../../../components/adm-create-entity/adm-create-entity'
 import EditingInput from '../../../components/editing-input/editing-input'
 import Filter from '../../../components/filter/filter'
@@ -58,33 +58,43 @@ const AdmCustomers = (): JSX.Element => {
     }
   }, [])
 
-  const addNewUser = (data: CustomerState) => {
-    const newArr: CustomerState[] | null = customers
-    if (newArr !== null) {
-      console.log(data)
+  const addNewUser = (data: CustomerState | CustomerState[] | null) => {
+    // console.log(data);
+    
+    if(data === null){
+      setCustomers(null)
+      return
+    }
+    if (Array.isArray(data)) {
+      setCustomers(data)
+    } else {
       setCustomers([data])
     }
   }
-  // alert('hello')
-  // console.log(customers);
+
+
+  console.log(roles);
+  
 
   return (
     <section className={styles.wrapper}>
       <div className={styles.header}>
         <h1>Користувачі</h1>
         <div className={styles.options_wrapper}>
-          <AdmSearchLine getData={getManufacturer} setData={setCustomers} />
+          <AdmSearchLine getData={getCustomer} setData={setCustomers} />
           <AdmCreateEntity
-            mask={{ 
-						login: 'Логін', 
-						first_name: 'Імʼя',
-						last_name: 'Прізвище',
-						tel_number: 'Номер телефону',
-            password:'Пароль',
-						role:{
-							valueName:"Роль",
-							admin:'Адміністратор',
-							user:'Користувач'}}}
+            mask={{
+              login: 'Логін',
+              first_name: 'Імʼя',
+              last_name: 'Прізвище',
+              tel_number: 'Номер телефону',
+              password: 'Пароль',
+              role: {
+                valueName: 'Роль',
+                admin: 'Адміністратор',
+                user: 'Користувач',
+              },
+            }}
             postAPI={postCustomer}
             getData={addNewUser}
           />
@@ -95,32 +105,48 @@ const AdmCustomers = (): JSX.Element => {
           <Filter
             options={roles}
             setData={addNewUser}
-            getData={getManufacturer}
+            getData={getCustomer}
           />
         </div>
 
         <ul className={styles.data_list}>
           <>
             <EditingInput
-              mask={{ manufacturer_id: '№', name: 'Назва', role: 'Країна' }}
+              mask={{
+                login: 'Логін',
+                first_name: 'Імʼя',
+                last_name: 'Прізвище',
+                tel_number: 'Номер телефону',
+              }}
               dataProps={{
-                manufacturer_id: '№',
-                name: 'Назва',
-                role: 'Країна',
+                customers_id:'№',
+                login: 'Логін',
+                first_name: 'Імʼя',
+                last_name: 'Прізвище',
+                tel_number: 'Номер телефону',
+                role:'Роль'
               }}
             />
             {Array.isArray(customers)
-              ? customers.map(manufacturer => (
+              ? customers.map(customer => (
                   <EditingInput
-                    mask={{
-                      manufacturer_id: '№',
-                      name: 'Назва',
-                      role: 'Країна',
-                    }}
-                    key={manufacturer.customer_id}
-                    dataProps={manufacturer}
-                    patchData={patchManufacturer}
-                    deleteData={deleteManufacturer}
+                  mask={{
+                    customer_id:'№',
+                    login: 'Логін',
+                    first_name: 'Імʼя',
+                    last_name: 'Прізвище',
+                    tel_number: 'Номер телефону',
+                    password: 'Новий пароль',
+                    role: {
+                      valueName: 'Роль',
+                      admin: 'Адміністратор',
+                      user: 'Користувач',
+                    },
+                  }}
+                    key={customer.customer_id}
+                    dataProps={customer}
+                    patchData={patchCustomer}
+                    deleteData={deleteCustomer}
                   />
                 ))
               : ''}

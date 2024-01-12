@@ -1,6 +1,6 @@
 import styles from './adm-manufacturers.module.scss'
 
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   deleteManufacturer,
   getManufacturer,
@@ -11,7 +11,7 @@ import AdmCreateEntity from '../../../components/adm-create-entity/adm-create-en
 import EditingInput from '../../../components/editing-input/editing-input'
 import Filter from '../../../components/filter/filter'
 import AdmSearchLine from '../../../components/search-line-adm/search-line'
-import { array } from 'yup'
+import UserContext from '../../../context/userContext'
 
 interface ManufacturerState {
   manufacturer_id: number | string
@@ -26,8 +26,9 @@ const AdmManufacturers = (): JSX.Element => {
   const [countries,setCountries] = useState<Record<string, string[]> | null>(null)
   // const [error409,setError409]= useState<>
   // console.log(manufacturers)
+  const user = useContext(UserContext)
   useEffect(() => {
-    getManufacturer('token').then(res => {
+    getManufacturer(user?.user?.token).then(res => {
       if (Array.isArray(res)) { // Проверяем, что res является массивом
         setManufacturers(res)
   
@@ -53,16 +54,20 @@ const AdmManufacturers = (): JSX.Element => {
     })
   }, [])
 
-  const addNewManufacturer = (data: ManufacturerState) => {
+  const addNewManufacturer = (data: ManufacturerState | ManufacturerState[]) => {
     const newArr: ManufacturerState[] | null = manufacturers
     if (newArr !== null) {
       console.log(data);
-      
-      setManufacturers([data])
+      if(Array.isArray(data)){
+        setManufacturers(data)
+      } else {
+        setManufacturers([data])
+      }
     } 
   }
-  // alert('hello')
-  // console.log(manufacturers);
+
+  console.log(countries);
+  
   
   return (
     <section className={styles.wrapper}>

@@ -9,7 +9,7 @@ export interface ManufacturerInterface {
 
 interface data {"Країни":string[]}
 export const getManufacturer = async (
-  token:string,
+  token:string | undefined,
   id?: string,
   name?:string, 
   data?: data,
@@ -45,9 +45,9 @@ export const getManufacturer = async (
 }
 
 export const patchManufacturer = async (
+  token: string,
   data: object, //проблема типизиции **** из *****
   manufacturer_id: number,
-  token: string,
 ): Promise<ManufacturerInterface | number> => {
   try {
     const response: AxiosResponse<ManufacturerInterface> = await axios.patch(
@@ -74,8 +74,8 @@ export const patchManufacturer = async (
 }
 
 export const deleteManufacturer = async (
-  id: number,
   token: string,
+  id: number,
 ): Promise<number> => {
   try {
     const response: AxiosResponse<number> = await axios.delete(
@@ -101,8 +101,8 @@ interface PostManufacturer {
 }
 
 export const postManufacturer = async (
-  data: PostManufacturer,
   token: string,
+  data: PostManufacturer,
 ): Promise<ManufacturerInterface | number> => {
   try {
     const response: AxiosResponse<ManufacturerInterface> = await axios.post(

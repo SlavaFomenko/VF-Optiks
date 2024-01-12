@@ -1,11 +1,6 @@
 .wrapper{
-	// display: grid;
-	// grid-template-columns: 0.2fr 1fr;
-	// grid-template-rows: 1fr;
 	display: flex;
 	height: 100%;
-	// padding:  20px;
-	// overflow: hidden;
 
 	menu{
 		border-right: 2px solid #000;
@@ -18,31 +13,24 @@
 		overflow-y: scroll;
 		padding:70px 20px;
 		button{
-
 			font-size: 110%;
 			font-weight: 600;
 		}
 		ul{
-			// background-color: red;
 			display: flex;
 			width: 100%;
-			// gap: 10px;
 			flex-direction: column;
 			justify-content: start;
-			// background-color: red;
 			gap: 10px;
 			height: auto;
 		}
 	}
 	section{
 		padding: 0 20px;
-		// overflow-y: hidden;
-		// overflow-y: scroll;
-		// position: relative;
 		height: 100%;
 		width: 100%;
 		display: grid;
 		grid-template-columns: 1fr;
-		grid-template-rows: auto;
+		grid-template-rows: min-content;
 	}
 }
