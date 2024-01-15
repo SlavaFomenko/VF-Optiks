@@ -8,6 +8,7 @@ export interface ManufacturerInterface {
 }
 
 interface data {"Країни":string[]}
+
 export const getManufacturer = async (
   token:string | undefined,
   id?: string,

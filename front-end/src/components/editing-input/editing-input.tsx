@@ -16,6 +16,8 @@ interface selectValues {
 
 interface EditingInputProps {
   dataProps: Editable
+  page?:number
+  limit?:number
   mask: Record<string, string | selectValues>
   patchData?: (token: string, values: Editable, id: number) => Promise<any>
   deleteData?: (token: string, id: number) => Promise<any>
@@ -33,7 +35,7 @@ const EditingInput: React.FC<EditingInputProps> = ({
   const user = useContext(UserContext)
   const [error, setError] = useState<string | null>(null) //не обработано вывод 409 (дубликация) ошибки * из *****
   const [isComponentMounted, setIsComponentMounted] = useState<boolean>(true) // флаг для размонтирования
-
+  // const {page, setPage}
   const onSubmit = (values: Editable) => {
     // console.log(values);
     
@@ -170,7 +172,6 @@ const EditingInput: React.FC<EditingInputProps> = ({
   ) : isEditing ? (
     <li className={styles.not_active}>
       <h2>Редагування</h2>
-
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -193,9 +194,9 @@ const EditingInput: React.FC<EditingInputProps> = ({
       </div>
       <div className={styles.buttons}>
         <button onClick={() => setIsEditing(!isEditing)}>Редагувати</button>
+        
         <button
           onClick={() => {
-            // data !== undefined && data !== null
             Object.keys(data).map(key => {
               if (key.includes('id')) {
                 if (user?.user?.token) {

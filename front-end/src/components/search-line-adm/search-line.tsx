@@ -7,11 +7,9 @@ type AnyFunction = (...args: any[]) => any
 
 interface AdmSearchLine {
   setData: AnyFunction
-  getData: (...args: any[]) => Promise<any>
 }
 
 const AdmSearchLine: React.FC<AdmSearchLine> = ({
-  getData,
   setData,
 }): JSX.Element => {
   const [isError, setIsError] = useState<boolean>(false)
@@ -22,29 +20,14 @@ const AdmSearchLine: React.FC<AdmSearchLine> = ({
   }
 
   const onSubmit = async (values: { data: string }) => {
+    // console.log(values);
+    
     const data = values.data ? values.data : undefined
-    const token = user?.user? user.user.token:'token' 
-    await getData(token, undefined, data) // знаю що це погано * из ****)
-      .then(res => {
-        try {
-          if (typeof res === 'number') {
-            if (res === 404) {
-              setIsError(true)
-              setData(null)
-            }
-            throw new Error(`${res}`)
-          } else {
-            console.log(res)
-            setData(res)
-          }
-        } catch (err) {
-          console.error('error' + err)
-        }
-      })
+    setData(data,'name')
   }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validateOnBlur={false}>
       <Form className={styles.form}>
         <Field
           key='key'

@@ -16,11 +16,16 @@ interface data {
 
 export const getCustomer = async (
   token: string,
+  page:number,
+  limit:number,
   id?: string,
   login?: string,
   role?: data,
 ): Promise<CustomerInterface[] | number> => {
+  // console.log(role);
+  console.log(login);
   console.log(role);
+  
   
 
   try {
@@ -29,6 +34,8 @@ export const getCustomer = async (
       {
         params: {
           id: id,
+          page:page,
+          limit:limit,
           login: login,
           role: role?.['Ролі'],
         },

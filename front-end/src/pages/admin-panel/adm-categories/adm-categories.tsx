@@ -18,17 +18,18 @@ interface CategoriesState {
 
 const AdmCategories = (): JSX.Element => {
   const [categories, setCategories] = useState<CategoriesState[] | null>(null)
+  const [findName, setFindName] = useState<string | undefined>(undefined)
   // const [error409,setError409]= useState<>
   console.log(categories)
   useEffect(() => {
-    getCategory('token').then(res => {
+    getCategory('token',undefined,findName).then(res => {
       if (typeof res === 'number') {
         console.error(`status code ${res}`)
       } else {
         setCategories(res)
       }
     })
-  }, [])
+  }, [findName])
 
   const addNewCategory = (data: CategoriesState) => {
     const newArr: CategoriesState[] | null = categories
@@ -41,12 +42,26 @@ const AdmCategories = (): JSX.Element => {
     }
   }
 
+  const findCategory = (data: string, type: 'name') => {
+    switch (type) {
+      case 'name':
+        console.log(data);
+        if (typeof data === 'string') {
+          setFindName(data)
+        }
+        if (data === undefined) {
+          setFindName(undefined)
+        }
+        break
+    }
+  }
+
   return (
     <section className={styles.wrapper}>
       <div className={styles.header}>
         <h1>Категорії</h1>
         <div className={styles.options_wrapper}>
-          <AdmSearchLine getData={getCategory} setData={setCategories} />
+          <AdmSearchLine setData={findCategory} />
           <AdmCreateEntity
             mask={{ name: 'Назва', description: 'Опис' }}
             postAPI={postCategory}

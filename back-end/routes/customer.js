@@ -34,7 +34,7 @@ router.get('/:customer_id?', adminCheckMiddleware, async (req, res) => {
 
 	let {
 		page = 1,
-		limit = 100,
+		limit = 30,
 		login,
 		first_name,
 		last_name,
@@ -42,8 +42,8 @@ router.get('/:customer_id?', adminCheckMiddleware, async (req, res) => {
 		role,
 	} = req.query
 
-	if (limit > 100) {
-		limit = 100
+	if (limit > 30) {
+		limit = 30
 	}
 
 	try {
