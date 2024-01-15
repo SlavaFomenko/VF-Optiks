@@ -1,5 +1,9 @@
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
+// const db = require('./models/dbKnex')
+// const uploadRouter = require('./ваш_путь_к_роутеру/uploadRouter'); // замените на ваш путь
 const categoryRoutes = require('./routes/category')
 const customerRoutes = require('./routes/customer')
 const customersLoginRoutes = require('./routes/customersLogin')
@@ -18,6 +22,9 @@ const app = express();
 app.use(express.json())
 app.use(cors())
 
+
+
+
 app.use('/customers/login',customersLoginRoutes);
 app.use('/customers',customerRoutes);
 
@@ -32,6 +39,21 @@ app.use('/products',productsRoutes)
 app.use('/orders',ordersRoutes)
 
 app.use('/statistic',statisticRoutes)
+
+app.get('/images/:imageName', (req, res) => {
+    const imageName = req.params.imageName;
+    const imagePath = path.join(__dirname, 'uploads', imageName);
+  
+    // Проверка наличия файла
+    if (fs.existsSync(imagePath)) {
+      // Отправка файла в ответ на запрос
+      res.sendFile(imagePath);
+    } else {
+      // Если файл не найден, отправляем 404
+      res.status(404).json({ error: 'Image not found' });
+    }
+  });
+
 
 app.use((req, res) => {
     res.status(404).json({ error: 'end-point not found' });
