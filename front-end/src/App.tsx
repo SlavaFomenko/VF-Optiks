@@ -20,6 +20,7 @@ import AdmCustomers from './pages/admin-panel/adm-customers/adm-customers'
 import AdmManufacturers from './pages/admin-panel/adm-manufacturers/adm-manufacturers'
 import AdmOrders from './pages/admin-panel/adm-orders/adm-orders'
 import { PrivateRoute } from './utils/routes/PrivateRoutes'
+import ProductPage from './pages/product/product'
 
 
 
@@ -55,6 +56,7 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage/>}/>
           <Route path='store' element={<StorePage/>}/>
+          <Route path='product/:productId' element={<ProductPage/>}/>
           <Route path='about' element={<AboutPage/>}/>
           <Route path='login' element={<LoginPage setAuthorizationIsActive={setAuthorizationIsActive} />}/>
           <Route path='registration' element={<RegistrationPage/>}/>

@@ -1,0 +1,117 @@
+.wrapper{
+	margin: auto 0;
+	width: 100%;
+	height: 80%;
+	// background-color: red;
+	display: grid;
+	grid-template-columns: 25% 50% 25%;
+	grid-template-rows: 1fr;
+	div{
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.info{
+		// background-color: green;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap:20px;
+		font-size: 110%;
+		border-right: 1px solid gray;
+		ul{
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto;
+			gap:10px;
+		}
+	}
+	.product{
+		// background-color: red;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 0.1 1fr;
+		// align-items: center;
+		justify-content: center;
+		h1{
+			width: 100%;
+			text-align: center;
+		}
+		.slider{
+			overflow: hidden;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			div{
+				display: flex;
+				align-items: center !important;
+			}
+			img{
+				align-items: center;
+				width: 100%;
+			}
+			.defaultImg{
+				filter: opacity(0.5);
+				padding: 30%;
+			}
+		}
+		.slider_settings{
+			display: flex;
+			img{
+				height: 100%;
+			}
+		}
+	}
+	.add_to_cart{
+		border-left: 1px solid gray;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 20px;
+		.add_to_cart_button{
+			height: min-content;
+			button{
+				background-color: black;
+				// width: 200px;
+				padding:10px 30px;
+				// height: ;
+				color: white;
+				font-size: 120%;
+				font-weight: 500;
+				border-radius: 2012px;
+				transition: 0.3s ease-in-out;
+			}
+			button:hover{
+				color: black;
+				background-color: white;
+			}
+		}
+		
+		.price_info{
+			height: min-content;
+			height: auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			.price{
+				font-size: 180%;
+				font-weight:600;
+			}
+			.quantity{
+				font-size: 110%;
+				font-weight:400;
+			}
+		}
+	}
+}
+.main{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}

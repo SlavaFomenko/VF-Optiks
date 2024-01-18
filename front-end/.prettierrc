@@ -2,7 +2,7 @@
   "semi": false,
   "singleQuote": true,
   "trailingComma": "all",
-  "printWidth": 80,
+  "printWidth": 120,
   "tabWidth": 2,
   "jsxSingleQuote": true,
   "jsxBracketSameLine": false,
@@ -15,12 +15,12 @@
     {
       "files": "*.json",
       "options": {
-        "printWidth": 120
+        "printWidth": 180
       }
     }
   ],
   "max-len": [
-    2,
+    3,
     {
       "code": 80,
       "ignoreComments": true,

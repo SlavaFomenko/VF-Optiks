@@ -1,0 +1,43 @@
+.wrapper{
+	width: 100%;
+	height: 100%;
+	// background-color: blue;
+	display: grid;
+	grid-template-columns: 0.2fr 1fr;
+	grid-template-rows: 1fr;
+
+	.filter{
+		background-color: green;
+	}
+	.product_card_wrapper{
+		// z-index: 15000;
+		margin: 5px;
+		overflow: hidden;
+		background-color: red;
+		.search_line{
+			height: 60px;
+			padding:0 5px;
+			background-color: blue;
+		}
+		.product_cards{
+			width:100%;
+			height: calc(100% - 60px);
+			background-color: white;
+			// padding-top: 20px;
+			padding:0 20px ;
+			padding-top: 20px;
+			overflow:hidden;
+			.product_cards_list{
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				overflow-y: scroll;
+				display: grid;
+				grid-template-columns: repeat(4,1fr);
+				grid-auto-rows: 400px;
+				gap: 20px;
+				padding-bottom: 20px;
+			}
+		}
+	}
+}

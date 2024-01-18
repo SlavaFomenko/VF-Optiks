@@ -111,7 +111,6 @@ router.patch('/:category_id?', adminCheckMiddleware, async (req, res) => {
 			return res.status(400).json({ error: 'invalid request' })
 		}
 
-		// Выполнение запроса для получения обновленной записи
 		const selectQuery = 'SELECT * FROM Categories WHERE category_id = ?'
 		db.query(selectQuery, [categoryId], (selectErr, result) => {
 			if (selectErr) {
@@ -120,7 +119,6 @@ router.patch('/:category_id?', adminCheckMiddleware, async (req, res) => {
 					.json({ error: 'error retrieving updated record' })
 			}
 
-			// Возвращение обновленной записи
 			res.status(200).json(result[0])
 		})
 	})

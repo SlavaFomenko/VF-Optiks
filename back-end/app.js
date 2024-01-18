@@ -2,8 +2,6 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-// const db = require('./models/dbKnex')
-// const uploadRouter = require('./ваш_путь_к_роутеру/uploadRouter'); // замените на ваш путь
 const categoryRoutes = require('./routes/category')
 const customerRoutes = require('./routes/customer')
 const customersLoginRoutes = require('./routes/customersLogin')
