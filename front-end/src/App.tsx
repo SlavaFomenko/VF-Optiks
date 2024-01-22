@@ -11,7 +11,6 @@ import RegistrationPage from './pages/registration/registration'
 import AboutPage from './pages/about/about'
 import AdminPanel from './pages/admin-panel/adminPanel'
 import ProfilePage from './pages/profile/profile'
-import CartPage from './pages/cart/cart'
 import NotFoundPage from './pages/notFound/notFound'
 import { TabContent } from './components/wrapper-adm-panel-tab/wrapper-admin-panel-tab.modules'
 import AdmCategories from './pages/admin-panel/adm-categories/adm-categories'
@@ -23,16 +22,11 @@ import { PrivateRoute } from './utils/routes/PrivateRoutes'
 import ProductPage from './pages/product/product'
 
 
-
-
-// import  useHistory  from 'react-router-dom'
-
-
-
 function App() {
 
 
   const storedUser = sessionStorage.getItem('user');
+  const [cartIsOpen,setCartIsOpen] = useState<boolean>(true)
   const initialUser: User | null = 
     storedUser !== undefined && storedUser !== null 
     ? 
@@ -64,18 +58,16 @@ function App() {
             <Route path='admin-panel/*' element={<AdminPanel/>}>
               <Route path=" " element={<TabContent><section>Виберіть пункт меню</section></TabContent>} />
   			      <Route path="categories" element={<TabContent><AdmCategories /></TabContent>} />
-				      {/* <Route path="*" element={<Outlet />} /> */}
   			      <Route path="products" element={<TabContent><AdmProducts/></TabContent>} />
   			      <Route path="orders" element={<TabContent><AdmOrders/></TabContent>} />
   			      <Route path="users" element={<TabContent><AdmCustomers/></TabContent>} />
   			      <Route path="manufacturers" element={<TabContent><AdmManufacturers/></TabContent>} />
             </Route>
           </Route>
-          <Route path='cart' element={<CartPage/>}/>
           <Route path='profile' element={<ProfilePage/>}/>
-
           <Route path='*' element={<NotFoundPage/>}/>
         </Routes>
+        {/* {!cartIsOpen || <CartPage/>} */}
         </div>
       </UserContext.Provider>
   );

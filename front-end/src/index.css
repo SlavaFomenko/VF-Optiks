@@ -36,13 +36,23 @@ html,body{
   height: 100vh;
   font-family: 'Poppins', monospace;
   letter-spacing: -0.4px;
+  position: relative;
 }
 #root{
+  position: relative;
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#cart{
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  position: absolute;
 }
 
 ul{

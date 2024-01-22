@@ -8,22 +8,22 @@ import Menu from '../contextMenu/menu';
 
 const Header = (): JSX.Element => {
   const user = useContext(UserContext);
-  const [menuIsActive, setMenuIsActive] = useState<boolean>(false);
+  const [menuIsActive, setMenuIsActive] = useState<boolean>(true);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
       
-      if (menuRef.current && !menuRef.current.contains(event.target as Node | null)) {
-        setMenuIsActive(false);
-      }
-    };
+  //     if (menuRef.current && !menuRef.current.contains(event.target as Node | null)) {
+  //       setMenuIsActive(false);
+  //     }
+  //   };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+  //   document.addEventListener('click', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('click', handleClickOutside);
+  //   };
+  // }, []);
 
   const navigate = useNavigate();
   return (

@@ -3,11 +3,8 @@ import Slider from 'react-slick'
 import { getProduct } from '../../api/productAPI'
 import defaultImg from '../../images/header/eye_logo.png'
 import { extractProductIdFromUrl } from '../../utils/scripts/extractProductIdFromUrl'
+import CartPage from '../cart/cart'
 import styles from './product.module.scss'
-
-// import "~slick-carousel/slick/slick.css";
-// import "~slick-carousel/slick/slick-theme.css";
-interface ProductPageProps {}
 
 interface Image {
   image_id: number
@@ -30,6 +27,7 @@ interface Product {
 
 const ProductPage = (): JSX.Element => {
   const [product, setProduct] = useState<Product | undefined>(undefined)
+  const [cartIsOpen, setCartIsOpen] = useState<boolean>(false)
 
   useEffect(() => {
     const productId = extractProductIdFromUrl()
@@ -56,7 +54,7 @@ const ProductPage = (): JSX.Element => {
     touchMove: true,
     className: styles.slider_settings,
   }
-  console.log(product)
+  // console.log(product)
 
   return (
     <main className={styles.main}>
@@ -99,13 +97,14 @@ const ProductPage = (): JSX.Element => {
               <span className={styles.quantity}>В наявності {product.quantity}</span>
             </div>
             <div className={styles.add_to_cart_button}>
-              <button> Придбати </button>
+              <button onClick={()=>setCartIsOpen(true)}> Додати до кошика </button>
             </div>
           </div>
         </div>
       ) : (
         <></>
       )}
+      {cartIsOpen ? <CartPage product_id={product?.id} /> : <></>}
     </main>
   )
 }

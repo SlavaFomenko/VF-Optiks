@@ -26,7 +26,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps): JSX.Element => {
-  console.log(product)
+  // console.log(product)
 
   return (
     <li className={styles.wrapper}>
@@ -46,7 +46,7 @@ const ProductCard = ({ product }: ProductCardProps): JSX.Element => {
             <span className={styles.price}>{product.price} грн</span>
           </div>
         </Link>
-        <button className={styles.card_button}>Придбати</button>
+        <button className={styles.card_button}> Додати до кошика </button>
       </div>
     </li>
   )

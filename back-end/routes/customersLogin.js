@@ -50,11 +50,12 @@ router.get('',(req, res)=>{
                     console.log(token);
                     const data = {
                         token:token,
-                        login:user.first_name,
+                        login:user.login,
                         first_name:user.first_name,
                         last_name:user.last_name,
                         role:user.role,
-                        tel_number:user.tel_number
+                        tel_number:user.tel_number,
+                        customer_id:user.customer_id
                     }
 
                     return res.status(200).json(data);

@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { URL_CUSTOMERS, URL_PRODUCTS } from '../config/config'
-import { boolean } from 'yup'
+import {URL_PRODUCTS } from '../config/config'
 
 interface Image {
   image_id: number
@@ -34,12 +33,8 @@ export const getProduct = async (
 	priceFrom?:number,
 	priceTo?:number,
 	priceInDescendingOrder?:boolean,
-
-  images?: Image[],
 ): Promise<Product[] | number> => {
-  // console.log(role);
-  // console.log(login);
-  // console.log(role);
+
 
   try {
     const response: AxiosResponse<Product[]> = await axios.get(URL_PRODUCTS, {
@@ -61,9 +56,9 @@ export const getProduct = async (
         'Content-Type': 'application/json',
       },
     })
-    console.log(response);
+    // console.log(response);
     
-		console.log(response.data);
+		// console.log(response.data);
 		
     return response.data
   } catch (error: AxiosError | any) {

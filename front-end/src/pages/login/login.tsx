@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { getUser } from '../../api/loginAPI';
 import UserContext from '../../context/userContext';
@@ -8,7 +8,6 @@ import styles from './login.module.scss';
 
 
 interface LoginPageProps {
-  // setUser: React.Dispatch<React.SetStateAction<UserContext | null>>,
   setAuthorizationIsActive: React.Dispatch<React.SetStateAction<boolean>>
 }
 

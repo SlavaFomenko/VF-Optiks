@@ -1,0 +1,14 @@
+.wrapper{
+	margin-top: 50px;
+	position: absolute;
+	top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+	// background-color: red;
+	border: 2px solid black;
+	border-radius: 20px;
+	background-color: white;
+	width: 70% !important;
+	height: 70% !important;
+	padding:10px 20px !important;
+}

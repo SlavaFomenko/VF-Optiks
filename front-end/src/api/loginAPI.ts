@@ -13,17 +13,22 @@ interface UserData {
 	last_name:string,
 	role:string,
 	tel_number:string,
+	customer_id:number
 }
 export const getUser = async({ login, password }: GetUser): Promise<UserData | number>=> {
 
+	
 	const params = {
 		login: login,
 		password: password,
 	};
 
   try {
-    const response: AxiosResponse<UserData> = await axios.get(URL_LOGIN, { params });
+		const response: AxiosResponse<UserData> = await axios.get(URL_LOGIN, { params });
+		console.log(response.data);
+		
 		return response.data;
+
   } catch (error: AxiosError | any){
 		console.error('Error:', error);
     return error.response ? error.response.status : 500;

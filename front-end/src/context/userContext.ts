@@ -7,6 +7,7 @@ export interface User {
   last_name: string;
   role: string;
   tel_number: string;
+  customer_id:number
 }
 
 interface UserContext {
