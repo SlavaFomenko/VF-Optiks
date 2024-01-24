@@ -74,3 +74,26 @@ export const addToCart = async (customer_id:number,login: string, product_id: nu
     return 500
   }
 }
+export const getCart = async (login:string): Promise<Order[] | number> => {
+  try {
+    console.log(login);
+    
+    const response: AxiosResponse<Order[] | []> = await axios.get(URL_ORDERS,{params:{
+      user:login,
+      status:'Новий'
+    }})
+    
+    console.log(response);
+
+    return response.data
+  } catch (error: AxiosError | any) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError
+      if (axiosError.response) {
+        return axiosError.response.status
+      }
+    }
+    console.error('Error:', error)
+    return 500
+  }
+}
