@@ -8,7 +8,7 @@ import Menu from '../contextMenu/menu';
 
 const Header = (): JSX.Element => {
   const user = useContext(UserContext);
-  const [menuIsActive, setMenuIsActive] = useState<boolean>(true);
+  const [menuIsActive, setMenuIsActive] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   // useEffect(() => {

@@ -4,6 +4,7 @@ import { addToCart } from '../../api/cartAPI'
 import UserContext from '../../context/userContext'
 import styles from './cart.module.scss'
 import CartCard from '../../components/cart-card/cart-card'
+import { useSelector } from 'react-redux'
 
 
 interface Order {
@@ -32,8 +33,13 @@ interface CartPageProps {
 
 const CartPage = ({ product_id }: CartPageProps): JSX.Element | null => {
   const [cart, setCart] = useState<Order | null>(null)
+  const {cart_data} = useSelector((state:any) => state.cart)
+  console.log(cart_data);
+  
   const user = useContext(UserContext)
   const cartElem = document.getElementById('cart')
+
+  console.log(product_id);
   
   // console.log(user)
   
@@ -52,20 +58,6 @@ const CartPage = ({ product_id }: CartPageProps): JSX.Element | null => {
       }
     }
   }, [])
-
-  // console.log('hello');
-  // if (!cart) {
-  //   console.log('hello');
-    
-  //   return (<main className={styles.wrapper}>
-  //   <h1>Корзина</h1>
-  //   <ul>
-  //     {/* {cart.cart.map(product => (
-  //       <CartCard key={product.id_product} product_id={product.id_product} quantity={product.quantity} />
-  //     ))} */}
-  //   </ul>
-  // </main>) // или что-то еще, если корзина пуста
-  // }
 
   // Создайте контейнер для содержимого корзины
   const cartContent = (

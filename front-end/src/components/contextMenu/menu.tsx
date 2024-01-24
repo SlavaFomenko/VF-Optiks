@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router'
 import UserContext from '../../context/userContext'
 import CartPage from '../../pages/cart/cart'
 import styles from './menu.module.scss'
+import { useDispatch } from 'react-redux'
+import { openCart } from '../../actions/cartActions'
 
 enum Roles {
   admin = 'admin',
@@ -12,15 +14,13 @@ enum Roles {
 const Menu = (): JSX.Element => {
   const user = useContext(UserContext)
   const navigate = useNavigate()
-
-  const [isVisible, setIsVisible] = useState<boolean>(false)
-	console.log(isVisible);
+  const dispatch = useDispatch()
 	
   return (
     <menu className={styles.wrapper_menu}>
       <ul>
         <li onClick={() => navigate('profile')}>Профіль</li>
-        <li onClick={() => setIsVisible(true)}>Корзина</li>
+        <li onClick={()=>dispatch(openCart())}>Корзина</li>
         {user?.user && user.user.role === Roles.admin ? (
           <li onClick={() => navigate('/admin-panel')}>Адмін панель</li>
         ) : (
@@ -35,9 +35,6 @@ const Menu = (): JSX.Element => {
           Вийти
         </li>
       </ul>
-      {isVisible ? <CartPage />:''}
-      {/* Отобразите корзину, если isVisible равно true */}
-      {/* <CartPage /> */}
     </menu>
   )
 }

@@ -1,6 +1,6 @@
 // import './App.css';
-import { useContext, useEffect, useState } from 'react'
-import { Outlet, Route, Routes } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import styles from './App.module.scss'
 import Header from './components/header/header'
 import HomePage from './pages/general/home'
@@ -20,13 +20,15 @@ import AdmManufacturers from './pages/admin-panel/adm-manufacturers/adm-manufact
 import AdmOrders from './pages/admin-panel/adm-orders/adm-orders'
 import { PrivateRoute } from './utils/routes/PrivateRoutes'
 import ProductPage from './pages/product/product'
-
+import { useSelector } from 'react-redux'
+import CartPage from './pages/cart/cart'
+// import {CartState} from './reducers/cartReducers'
 
 function App() {
-
-
   const storedUser = sessionStorage.getItem('user');
-  const [cartIsOpen,setCartIsOpen] = useState<boolean>(true)
+  const cartIsOpen = useSelector((state:any)=>state.cart.cartIsOpen) //переписать типизацию ****/*  */
+  console.log(cartIsOpen);
+  
   const initialUser: User | null = 
     storedUser !== undefined && storedUser !== null 
     ? 
@@ -67,7 +69,7 @@ function App() {
           <Route path='profile' element={<ProfilePage/>}/>
           <Route path='*' element={<NotFoundPage/>}/>
         </Routes>
-        {/* {!cartIsOpen || <CartPage/>} */}
+        {!cartIsOpen || <CartPage/>}
         </div>
       </UserContext.Provider>
   );

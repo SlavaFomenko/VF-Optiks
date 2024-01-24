@@ -5,6 +5,8 @@ import defaultImg from '../../images/header/eye_logo.png'
 import { extractProductIdFromUrl } from '../../utils/scripts/extractProductIdFromUrl'
 import CartPage from '../cart/cart'
 import styles from './product.module.scss'
+import { useDispatch } from 'react-redux'
+import { openCart } from '../../actions/cartActions'
 
 interface Image {
   image_id: number
@@ -27,7 +29,8 @@ interface Product {
 
 const ProductPage = (): JSX.Element => {
   const [product, setProduct] = useState<Product | undefined>(undefined)
-  const [cartIsOpen, setCartIsOpen] = useState<boolean>(false)
+  // const [cartIsOpen, setCartIsOpen] = useState<boolean>(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const productId = extractProductIdFromUrl()
@@ -97,14 +100,14 @@ const ProductPage = (): JSX.Element => {
               <span className={styles.quantity}>В наявності {product.quantity}</span>
             </div>
             <div className={styles.add_to_cart_button}>
-              <button onClick={()=>setCartIsOpen(true)}> Додати до кошика </button>
+              <button onClick={()=>dispatch(openCart({ product_id: product.id, quantity: 1 }))}> Додати до кошика </button>
             </div>
           </div>
         </div>
       ) : (
         <></>
       )}
-      {cartIsOpen ? <CartPage product_id={product?.id} /> : <></>}
+      {/* {cartIsOpen ? <CartPage product_id={product?.id} /> : <></>} */}
     </main>
   )
 }
