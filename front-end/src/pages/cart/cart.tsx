@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { closeCart } from '../../actions/cartActions'
+import { openOrderDetails } from '../../actions/orderDetails'
 import { addToCart, getCart } from '../../api/cartAPI'
 import CartCard from '../../components/cart-card/cart-card'
 import UserContext from '../../context/userContext'
@@ -55,11 +56,9 @@ const CartPage = (): JSX.Element | null => {
       } else {
         console.log('hello');
         getCart(user.user.login).then(res => {
-          if (typeof res !== 'number') {
+          if (typeof res !== 'number' && res.length > 0) {
             console.log(res);
-            
             setCart(res[0])
-            // console.log(res[0].totalPrice);
             setOrderPrice(res[0].totalPrice)
           } else {
             console.log(res)
@@ -96,7 +95,12 @@ const CartPage = (): JSX.Element | null => {
         )}
       </ul>
       <div className={styles.buttons}>
-        <button className={styles.create_order_btn}> Оформити </button>
+        {cart?.id
+        ?
+        <button className={styles.create_order_btn} onClick={()=>{dispatch(openOrderDetails({order_id:cart.id}))}}> Оформити </button>
+        :
+        <></>
+        }
       </div>
     </main>
   )

@@ -22,11 +22,15 @@ import { PrivateRoute } from './utils/routes/PrivateRoutes'
 import ProductPage from './pages/product/product'
 import { useSelector } from 'react-redux'
 import CartPage from './pages/cart/cart'
+import OrderDetailsPage from './pages/orderDetail/orderDetails'
 // import {CartState} from './reducers/cartReducers'
 
 function App() {
   const storedUser = sessionStorage.getItem('user');
   const cartIsOpen = useSelector((state:any)=>state.cart.cartIsOpen) //переписать типизацию ****/*  */
+  const orderDetailsIsOpen = useSelector((state:any)=>state.order_details.orderDetailsIsOpen) //переписать типизацию ****/*  */
+  console.log(orderDetailsIsOpen);
+  
   // console.log(cartIsOpen);
   
   const initialUser: User | null = 
@@ -68,6 +72,7 @@ function App() {
           <Route path='*' element={<NotFoundPage/>}/>
         </Routes>
         {!cartIsOpen || <CartPage/>}
+        {!orderDetailsIsOpen || <OrderDetailsPage/>}
         </div>
       </UserContext.Provider>
   );
