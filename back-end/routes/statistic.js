@@ -3,6 +3,7 @@ const router = express.Router()
 const knexDB = require('../models/dbKnex')
 
 router.get('/top_users',async (req, res)=>{
+    
     const query = knexDB.select({
         customer_id: 'c.customer_id',
         first_name: 'c.first_name',

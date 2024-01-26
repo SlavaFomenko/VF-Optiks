@@ -19,11 +19,9 @@ router.post('', async (req, res) => {
 			order_details.length === 0 ||
 			address
 		) {
-			return res
-				.status(400)
-				.json({
-					error: 'Invalid request. Please provide required parameters.1',
-				})
+			return res.status(400).json({
+				error: 'Invalid request. Please provide required parameters.1',
+			})
 		}
 
 		// Проверка существования клиента
@@ -95,8 +93,9 @@ router.post('', async (req, res) => {
 router.patch('/:order_id', async (req, res) => {
 	// debugger
 	try {
-		const { customer_id, delivery_type_id, order_details, address, status_id } = req.body
-        console.log();
+		const { customer_id, delivery_type_id, order_details, address, status_id } =
+			req.body
+		console.log()
 		let orderId = req.params.order_id
 		// console.log(status)
 		console.log(req.body)
@@ -160,17 +159,15 @@ router.patch('/:order_id', async (req, res) => {
 				.first()
 
 			if (!existingDeliveryType) {
-				return res
-					.status(404)
-					.json({
-						error: `Delivery type with ID ${delivery_type_id} does not exist.`,
-					})
+				return res.status(404).json({
+					error: `Delivery type with ID ${delivery_type_id} does not exist.`,
+				})
 			}
 
 			existingOrder.delivery_type_id = delivery_type_id
 		}
 
-        console.log('data');
+		// console.log('data')
 		if (address) {
 			// проверка наличия всех полей в объекте address
 			const { street, city, house, zip_code } = address
@@ -184,7 +181,7 @@ router.patch('/:order_id', async (req, res) => {
 		// console.log(status)
 
 		if (status_id) {
-			console.log('hello')
+			// console.log('hello')
 			existingOrder.status_id = status_id
 		}
 
@@ -199,8 +196,6 @@ router.patch('/:order_id', async (req, res) => {
 						await knexDB('Order_details')
 							.where('product_id', '=', product_id)
 							.del()
-						// const sqlQuery = hello.toSQL();
-						// console.log(hello.toString())
 					}
 				})
 			)
@@ -270,6 +265,84 @@ router.patch('/:order_id', async (req, res) => {
 				})
 			)
 		}
+        if (status_id === 2) {
+            const orderId = req.params.order_id;
+        
+            const orderInfo = await knexDB('Orders')
+                .select(
+                    'Orders.order_id',
+                    'Orders.customer_id',
+                    'Orders.order_date',
+                    'Orders.delivery_type_id',
+                    'Orders.address',
+                    'Customers.first_name',
+                    'Customers.last_name',
+                    'Customers.tel_number'
+                )
+                .leftJoin('Customers', 'Orders.customer_id', '=', 'Customers.customer_id')
+                .where('Orders.order_id', '=', orderId)
+                .first();
+        
+            if (!orderInfo) {
+                return res.status(404).json({ error: `Order with ID ${orderId} does not exist.` });
+            }
+        
+            orderInfo.total_price = 0;
+            orderInfo.customer_info = {
+                first_name: orderInfo.first_name,
+                last_name: orderInfo.last_name,
+                tel_number: orderInfo.tel_number
+            };
+            delete orderInfo.first_name;
+            delete orderInfo.last_name;
+            delete orderInfo.tel_number;
+        
+            console.log(orderInfo);
+            // Получение информации о типе доставки
+            const deliveryTypeInfo = await knexDB('DeliveryTypes')
+                .select('name')
+                .where('delivery_type_id', '=', orderInfo.delivery_type_id)
+                .first();
+        
+            orderInfo.delivery_type = deliveryTypeInfo.name;
+        
+            // Получение информации о товарах в заказе
+            const orderDetails = await knexDB('Order_details')
+                .join('Products', 'Order_details.product_id', '=', 'Products.product_id')
+                .select('Products.name', 'Order_details.quantity', 'Products.price')
+                .where('Order_details.order_id', '=', orderId);
+        
+            orderInfo.products = orderDetails.map(detail => {
+                const subtotal = detail.quantity * detail.price;
+                orderInfo.total_price += subtotal;
+        
+                return {
+                    product_name: detail.name,
+                    quantity: detail.quantity,
+                    subtotal
+                };
+            });
+        
+            const { exec } = require('child_process')
+
+			const pythonScript = 'script.py'
+
+			const jsonString = JSON.stringify(orderInfo)
+
+			const command = `echo '${jsonString}' | python3 ${pythonScript}`
+
+			const child = exec(command, (error, stdout, stderr) => {
+				if (error) {
+					console.error(`Ошибка при выполнении скрипта: ${error}`)
+					return
+				}
+				console.log(`Результат выполнения скрипта:\n${stdout}`)
+			})
+
+			child.on('exit', code => {
+				console.log(`Процесс Python завершился с кодом ${code}`)
+			})
+        }
 		return res.status(200).json({ success: 'Done' })
 	} catch (error) {
 		console.error(error)
