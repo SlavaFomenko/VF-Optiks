@@ -27,7 +27,7 @@ import CartPage from './pages/cart/cart'
 function App() {
   const storedUser = sessionStorage.getItem('user');
   const cartIsOpen = useSelector((state:any)=>state.cart.cartIsOpen) //переписать типизацию ****/*  */
-  console.log(cartIsOpen);
+  // console.log(cartIsOpen);
   
   const initialUser: User | null = 
     storedUser !== undefined && storedUser !== null 
@@ -43,8 +43,6 @@ function App() {
   },[user])
 
   const [authorizationIsActive , setAuthorizationIsActive] = useState<boolean>(false)
-
-
   return (
       <UserContext.Provider value={{ user, setUser: setUser }} >
         <div className={styles.App}>

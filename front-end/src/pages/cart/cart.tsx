@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router'
+import { closeCart } from '../../actions/cartActions'
 import { addToCart, getCart } from '../../api/cartAPI'
 import CartCard from '../../components/cart-card/cart-card'
 import UserContext from '../../context/userContext'
@@ -25,65 +27,79 @@ interface CartItem {
   id_product: number
 }
 
-interface CartPageProps {
-  product_id?: number
-  quantity?: number
-}
 
-const CartPage = ({ product_id }: CartPageProps): JSX.Element | null => {
+const CartPage = (): JSX.Element | null => {
   const [cart, setCart] = useState<Order | null>(null)
-  const { cart_data } = useSelector((state: any) => state.cart)
+  const { cart_data } = useSelector((state: any) => state.cart) //переробити типізацію
+  const [orderPrice, setOrderPrice] = useState<number>(0)
+  const dispatch = useDispatch()
   console.log(cart_data)
 
   const user = useContext(UserContext)
-  const cartElem = document.getElementById('cart')
-
-  console.log(product_id)
-
-  // console.log(user)
+  const cartElem = document.getElementsByTagName('body')[0]
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (user?.user) {
       if (cart_data) {
-        // console.log('hello');
+        
         addToCart(user.user.customer_id, user.user.login, cart_data.product_id, 1).then(res => {
           if (typeof res !== 'number') {
-            // console.log(res);
             setCart(res[0])
+            
+            setOrderPrice(res[0].totalPrice)
           } else {
             console.log(res)
           }
         })
       } else {
+        console.log('hello');
         getCart(user.user.login).then(res => {
           if (typeof res !== 'number') {
-            // console.log(res);
+            console.log(res);
+            
             setCart(res[0])
+            // console.log(res[0].totalPrice);
+            setOrderPrice(res[0].totalPrice)
           } else {
             console.log(res)
           }
-          // setCart(res[0])
         })
       }
+    } else {
+      dispatch(closeCart())
+      navigate('/login')
     }
   }, [])
+  // console.log(cart);
 
-  // Создайте контейнер для содержимого корзины
   const cartContent = (
     <main className={styles.wrapper}>
-      <h1>Корзина</h1>
-      <ul>
+      <button className={styles.close_btn} onClick={() => dispatch(closeCart())}></button>
+      <div className={styles.title}>
+        <h1>Корзина</h1>
+        <span className={styles.total_price}>Вартість {orderPrice} грн.</span>
+      </div>
+      <ul className={styles.product_list}>
         {cart ? (
           cart.cart.map(product => (
-            <CartCard key={product.id_product} product_id={product.id_product} quantity={product.quantity} />
+            <CartCard
+              key={product.id_product}
+              product_id={product.id_product}
+              quantity={product.quantity}
+              order_id={cart.id}
+              setOrderPrice={setOrderPrice}
+            />
           ))
         ) : (
           <></>
         )}
       </ul>
+      <div className={styles.buttons}>
+        <button className={styles.create_order_btn}> Оформити </button>
+      </div>
     </main>
   )
-
   return createPortal(cartContent, cartElem!)
 }
 

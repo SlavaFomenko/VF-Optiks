@@ -42,12 +42,10 @@ app.get('/images/:imageName', (req, res) => {
     const imageName = req.params.imageName;
     const imagePath = path.join(__dirname, 'uploads', imageName);
   
-    // Проверка наличия файла
     if (fs.existsSync(imagePath)) {
-      // Отправка файла в ответ на запрос
+    
       res.sendFile(imagePath);
     } else {
-      // Если файл не найден, отправляем 404
       res.status(404).json({ error: 'Image not found' });
     }
   });

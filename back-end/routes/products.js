@@ -21,8 +21,6 @@ const upload = multer({ storage: storage })
 router.post('/image', upload.array('images', 5), async (req, res) => {
 	const product_id = req.body.product_id
 
-	// console.log(DEFAULT_URL);
-	// console.log(req.files);
 
 	if (!req.files || req.files.length === 0) {
 		return res
@@ -64,7 +62,6 @@ router.patch('/image/:imageId', upload.single('image'), async (req, res) => {
 
 		fs.unlinkSync(existingImage.image_url)
 
-		// Обновление существующей записи с новым URL изображения
 		await knexDB('ProductImages')
 			.where('image_id', imageId)
 			.update({ image_url: newImageUrl })
@@ -99,7 +96,6 @@ router.delete('/image/:imageId', async (req, res) => {
 
 		fs.unlinkSync(imagePath)
 
-		// Удаление записи из базы данных
 		await knexDB('ProductImages').where('image_id', imageId).del()
 
 		res

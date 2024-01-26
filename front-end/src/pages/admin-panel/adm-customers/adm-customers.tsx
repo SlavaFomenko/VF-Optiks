@@ -117,7 +117,7 @@ const AdmCustomers = (): JSX.Element => {
             options={roles}
             paginate={paginate}
             setData={addNewUser}
-            getData={getCustomer}
+            // getData={getCustomer}
           />
         </div>
 

@@ -13,7 +13,7 @@ interface PaginateState {
 interface FilterProps<T> {
   paginate?: PaginateState
   options: Record<string, T[]> | null
-  getData: (...args: any[]) => Promise<any>
+  // getData: (...args: any[]) => Promise<any>
   setData: (...args: any[]) => any
 }
 
@@ -25,38 +25,12 @@ const Filter: React.FC<FilterProps<string>> = ({
   paginate,
   options,
   setData,
-  getData,
+  // getData,
 }): JSX.Element => {
   const user = useContext(UserContext)
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const [filter, setFilter] = useState<resData | null>(null)
   const [data, setCurrentData] = useState<any[]| null>(null)
-
-  // useEffect(() => {
-  //   if (isSubmit) {
-  //     if (paginate) {
-  //       setCurrentData(null); // Очищаем данные перед загрузкой новых данных
-  //       getData(user?.user?.token, paginate.page, paginate.limit, undefined, undefined, filter)
-  //         .then(res => {
-  //           if (filter !== null) {
-  //             if (data !== null && Array.isArray(data)) {
-  //               setData([...data, ...res]);
-  //               setCurrentData([...data, ...res]);
-  //             } else {
-  //               setData(res);
-  //               setCurrentData(res);
-  //             }
-  //           }
-  //         })
-  //         .catch(err => console.log(err));
-  //     }
-  //   }
-  // }, [paginate?.page, filter]);
-  
-
-  // const submit = () =>{
-  //   console.log(responseData);
-  // }
 
   const initializeFormValues = (
     options: Record<string, string[]>,
@@ -71,12 +45,8 @@ const Filter: React.FC<FilterProps<string>> = ({
   }
 
   const onSubmit = async (values: any) => {
-    console.log(values)
+    // console.log(values)
     
-
-    // console.log(hasTextInField);
-    
-
     
     const data: { [key: string]: string[] } = {}
     let isAllProperties = true

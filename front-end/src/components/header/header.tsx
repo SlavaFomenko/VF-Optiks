@@ -11,20 +11,6 @@ const Header = (): JSX.Element => {
   const [menuIsActive, setMenuIsActive] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-      
-  //     if (menuRef.current && !menuRef.current.contains(event.target as Node | null)) {
-  //       setMenuIsActive(false);
-  //     }
-  //   };
-
-  //   document.addEventListener('click', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('click', handleClickOutside);
-  //   };
-  // }, []);
-
   const navigate = useNavigate();
   return (
     <header className={styles.header_wrapper}>

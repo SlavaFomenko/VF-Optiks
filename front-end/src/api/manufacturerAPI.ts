@@ -30,7 +30,6 @@ export const getManufacturer = async (
         name:name,
         country:data?.["Країни"]} }
     )
-    console.log(response);
 
     return response.data
   } catch (error: AxiosError | any) {

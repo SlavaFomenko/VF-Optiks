@@ -7,7 +7,10 @@
 	grid-template-rows: 1fr;
 
 	.filter{
-		background-color: green;
+		// background-color: green;
+		border-right:1px solid gray ;
+		padding-top: 10px;
+		padding-right: 10px;
 	}
 	.product_card_wrapper{
 		// z-index: 15000;

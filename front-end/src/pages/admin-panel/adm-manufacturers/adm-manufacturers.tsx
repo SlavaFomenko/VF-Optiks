@@ -39,7 +39,6 @@ const AdmManufacturers = (): JSX.Element => {
     getManufacturer(user?.user?.token, undefined, findName, filterdata).then(
       res => {
         if (Array.isArray(res)) {
-          // Проверяем, что res является массивом
           setManufacturers(res)
           if (countries === null) {
             const data: Record<string, string[]> = {}
@@ -103,7 +102,7 @@ const AdmManufacturers = (): JSX.Element => {
           <Filter
             options={countries}
             setData={findManufacturers}
-            getData={getManufacturer}
+            // getData={getManufacturer}
           />
         </div>
 

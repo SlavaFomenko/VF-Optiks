@@ -13,14 +13,14 @@ export const getCategory = async (
   id?: string,
   name?: string,
 ): Promise<CategoryInterface[] | number> => {
-  console.log(name)
+  // console.log(name)
 
   try {
     const response: AxiosResponse<CategoryInterface[]> = await axios.get(
       URL_CATEGORIES,
       { params: { id: id, name: name } },
     )
-    console.log(response.config) // Вывод информации о запросе
+    // console.log(response.config) // Вывод информации о запросе
 
     return response.data
   } catch (error: AxiosError | any) {

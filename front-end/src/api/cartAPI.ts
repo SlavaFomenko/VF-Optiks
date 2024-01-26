@@ -20,20 +20,23 @@ interface CartItem {
   id_product: number
 }
 
-export const addToCart = async (customer_id:number,login: string, product_id: number, quantity: number): Promise<Order[] | number> => {
+export const addToCart = async (
+  customer_id: number,
+  login: string,
+  product_id: number,
+  quantity: number,
+): Promise<Order[] | number> => {
   try {
-    console.log(login);
-    
+
     const { data }: AxiosResponse<Order[] | []> = await axios.get(URL_ORDERS, {
       params: {
         user: login,
         status: 'Новий',
       },
     })
-    console.log(data)
 
     if (data.length > 0) {
-      const {status}: AxiosResponse<Order[] | {}> = await axios.patch(URL_ORDERS + `/${data[0].id}`, {
+     await axios.patch(URL_ORDERS + `/${data[0].id}`, {
         order_details: [
           {
             product_id: product_id,
@@ -41,11 +44,9 @@ export const addToCart = async (customer_id:number,login: string, product_id: nu
           },
         ],
       })
-
     } else {
-      console.log('hello');
-			const {status}: AxiosResponse<Order[] | {}> = await axios.post(URL_ORDERS , {
-        customer_id:customer_id,
+      await axios.post(URL_ORDERS, {
+        customer_id: customer_id,
         order_details: [
           {
             product_id: product_id,
@@ -53,7 +54,7 @@ export const addToCart = async (customer_id:number,login: string, product_id: nu
           },
         ],
       })
-		}
+    }
 
     const res = await axios.get(URL_ORDERS, {
       params: {
@@ -74,18 +75,46 @@ export const addToCart = async (customer_id:number,login: string, product_id: nu
     return 500
   }
 }
-export const getCart = async (login:string): Promise<Order[] | number> => {
-  try {
-    console.log(login);
-    
-    const response: AxiosResponse<Order[] | []> = await axios.get(URL_ORDERS,{params:{
-      user:login,
-      status:'Новий'
-    }})
-    
-    console.log(response);
 
+export const changeProductInCart = async (token: string, order_id: number, product_id: number, quantity: number) => {
+  try {
+    const responce: AxiosResponse<Order[] | {}> = await axios.patch(URL_ORDERS + `/${order_id}`, {
+      order_details: [
+        {
+          product_id: product_id,
+          quantity: quantity,
+        },
+      ],
+    })
+
+    console.log(responce)
+
+  } catch (error: AxiosError | any) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError
+      if (axiosError.response) {
+        return axiosError.response.status
+      }
+    }
+    console.error('Error:', error)
+    return 500
+  }
+}
+
+export const getCart = async (login: string): Promise<Order[] | number> => {
+  try {
+
+    const response: AxiosResponse<Order[] | []> = await axios.get(URL_ORDERS, {
+      params: {
+        user: login,
+        status: 'Новий',
+      },
+    })
+    
+    // console.log(response.data);
+    
     return response.data
+
   } catch (error: AxiosError | any) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError
