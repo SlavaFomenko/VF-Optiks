@@ -95,10 +95,10 @@ router.post('', async (req, res) => {
 router.patch('/:order_id', async (req, res) => {
 	// debugger
 	try {
-		const { customer_id, delivery_type_id, order_details, address, status } =
-			req.body
+		const { customer_id, delivery_type_id, order_details, address, status_id } = req.body
+        console.log();
 		let orderId = req.params.order_id
-		console.log(status)
+		// console.log(status)
 		console.log(req.body)
 		if (isNaN(Number(orderId))) {
 			return res.status(400).json({ error: 'Invalid data (order_id).' })
@@ -170,6 +170,7 @@ router.patch('/:order_id', async (req, res) => {
 			existingOrder.delivery_type_id = delivery_type_id
 		}
 
+        console.log('data');
 		if (address) {
 			// проверка наличия всех полей в объекте address
 			const { street, city, house, zip_code } = address
@@ -182,25 +183,18 @@ router.patch('/:order_id', async (req, res) => {
 
 		// console.log(status)
 
-		if (status) {
+		if (status_id) {
 			console.log('hello')
-			existingOrder.status_id = status
+			existingOrder.status_id = status_id
 		}
 
 		// сохранение обновленных данных в БД
 		await knexDB('Orders').where('order_id', '=', orderId).update(existingOrder)
 
-		// если есть order_details выполняем операции добавления и удаления товаров в заказе
-
-		// удаление товаров из заказа
 		if (order_details && order_details.length > 0) {
 			await Promise.all(
 				order_details.map(async orderDetail => {
 					const { product_id, quantity } = orderDetail
-
-					// console.log(quantity)
-
-					// удаление записей о товаре из Order_details
 					if (quantity === 0) {
 						await knexDB('Order_details')
 							.where('product_id', '=', product_id)
