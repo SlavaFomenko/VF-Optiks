@@ -28,7 +28,7 @@ order_str = (
     f"Данні про користувача\n\n"
     f"Ім'я - {data['customer_info']['first_name']}\n"
     f"Прізвище - {data['customer_info']['last_name']}\n"
-    f"Номер телефону - {data['customer_info']['tel_number']}'\n"
+    f"Номер телефону - {data['customer_info']['tel_number']}\n"
     f"___________________________________\n\n"
     f"Товари\n\n"
     + "\n".join(

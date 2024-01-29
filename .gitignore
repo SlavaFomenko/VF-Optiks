@@ -1,4 +1,4 @@
-.idea
-.vscode
-DS_Store
-data.txt
+.idea/
+.vscode/
+.DS_Store
+dat

@@ -185,6 +185,7 @@ const AdmCustomers = (): JSX.Element => {
             <li>
               <button
                 onClick={() => {
+                  console.log(paginate.page);
                   if (paginate.page > 1) {
                     paginate.setPage(paginate.page - 1)
                   }

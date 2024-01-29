@@ -38,7 +38,6 @@ const AdmSearchLine: React.FC<AdmSearchLine> = ({
         <button type='submit'>Пошук</button>
       </Form>
     </Formik>
-    // </div>
   )
 }
 

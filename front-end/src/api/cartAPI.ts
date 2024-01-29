@@ -58,7 +58,7 @@ export const addToCart = async (
 
     const res = await axios.get(URL_ORDERS, {
       params: {
-        user: 'admin',
+        user: login,
         status: 'Новий',
       },
     })

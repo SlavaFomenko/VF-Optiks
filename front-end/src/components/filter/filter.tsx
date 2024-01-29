@@ -14,7 +14,7 @@ interface FilterProps<T> {
   paginate?: PaginateState
   options: Record<string, T[]> | null
   // getData: (...args: any[]) => Promise<any>
-  setData: (...args: any[]) => any
+  setData: (...args: any[]) => any // виправить  *****
 }
 
 interface resData {
@@ -27,10 +27,10 @@ const Filter: React.FC<FilterProps<string>> = ({
   setData,
   // getData,
 }): JSX.Element => {
-  const user = useContext(UserContext)
-  const [isSubmit, setIsSubmit] = useState<boolean>(false)
-  const [filter, setFilter] = useState<resData | null>(null)
-  const [data, setCurrentData] = useState<any[]| null>(null)
+  // const user = useContext(UserContext)
+  // const [isSubmit, setIsSubmit] = useState<boolean>(false)
+  // const [filter, setFilter] = useState<resData | null>(null)
+  // const [data, setCurrentData] = useState<any[]| null>(null)
 
   const initializeFormValues = (
     options: Record<string, string[]>,

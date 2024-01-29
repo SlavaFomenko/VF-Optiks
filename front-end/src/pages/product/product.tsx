@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Slider from 'react-slick'
+import { openCart } from '../../actions/cartActions'
 import { getProduct } from '../../api/productAPI'
 import defaultImg from '../../images/header/eye_logo.png'
 import { extractProductIdFromUrl } from '../../utils/scripts/extractProductIdFromUrl'
-import CartPage from '../cart/cart'
 import styles from './product.module.scss'
-import { useDispatch } from 'react-redux'
-import { openCart } from '../../actions/cartActions'
 
 interface Image {
   image_id: number
@@ -100,7 +99,10 @@ const ProductPage = (): JSX.Element => {
               <span className={styles.quantity}>В наявності {product.quantity}</span>
             </div>
             <div className={styles.add_to_cart_button}>
-              <button onClick={()=>dispatch(openCart({ product_id: product.id, quantity: 1 }))}> Додати до кошика </button>
+              <button onClick={() => dispatch(openCart({ product_id: product.id, quantity: 1 }))}>
+                {' '}
+                Додати до кошика{' '}
+              </button>
             </div>
           </div>
         </div>

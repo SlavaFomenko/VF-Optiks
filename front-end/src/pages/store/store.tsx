@@ -6,6 +6,7 @@ import ProductCard from '../../components/product-card/product-card'
 import { usePaginate } from '../../hooks/paginate'
 import styles from './store.module.scss'
 import Filter from '../../components/filter/filter'
+import AdmSearchLine from '../../components/search-line-adm/search-line'
 interface StorePageProps {}
 
 interface Image {
@@ -131,7 +132,9 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
         <Filter options={filterData} setData={addFilterProperties} />
       </div>
       <section className={styles.product_card_wrapper}>
-        <div className={styles.search_line}>search line</div>
+        <div className={styles.search_line}>
+          <AdmSearchLine setData={addFilterProperties}/>
+        </div>
         <div className={styles.product_cards}>
           <ul className={styles.product_cards_list}>
             {products?.map(product => (

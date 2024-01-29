@@ -28,13 +28,12 @@ interface CartItem {
   id_product: number
 }
 
-
 const CartPage = (): JSX.Element | null => {
   const [cart, setCart] = useState<Order | null>(null)
   const { cart_data } = useSelector((state: any) => state.cart) //переробити типізацію
   const [orderPrice, setOrderPrice] = useState<number>(0)
   const dispatch = useDispatch()
-  console.log(cart_data)
+  // console.log(cart_data)
 
   const user = useContext(UserContext)
   const cartElem = document.getElementsByTagName('body')[0]
@@ -43,21 +42,22 @@ const CartPage = (): JSX.Element | null => {
   useEffect(() => {
     if (user?.user) {
       if (cart_data) {
-        
         addToCart(user.user.customer_id, user.user.login, cart_data.product_id, 1).then(res => {
           if (typeof res !== 'number') {
+            console.log(res)
+
             setCart(res[0])
-            
+
             setOrderPrice(res[0].totalPrice)
           } else {
             console.log(res)
           }
         })
       } else {
-        console.log('hello');
+        console.log('hello')
         getCart(user.user.login).then(res => {
           if (typeof res !== 'number' && res.length > 0) {
-            console.log(res);
+            console.log(res)
             setCart(res[0])
             setOrderPrice(res[0].totalPrice)
           } else {
@@ -95,12 +95,19 @@ const CartPage = (): JSX.Element | null => {
         )}
       </ul>
       <div className={styles.buttons}>
-        {cart?.id
-        ?
-        <button className={styles.create_order_btn} onClick={()=>{dispatch(openOrderDetails({order_id:cart.id}))}}> Оформити </button>
-        :
-        <></>
-        }
+        {cart?.id ? (
+          <button
+            className={styles.create_order_btn}
+            onClick={() => {
+              dispatch(openOrderDetails({ order_id: cart.id }))
+            }}
+          >
+            {' '}
+            Оформити{' '}
+          </button>
+        ) : (
+          <></>
+        )}
       </div>
     </main>
   )
