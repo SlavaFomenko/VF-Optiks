@@ -29,7 +29,7 @@ function App() {
   const storedUser = sessionStorage.getItem('user')
   const cartIsOpen = useSelector((state: any) => state.cart.cartIsOpen) //переписать типизацию ****/*  */
   const orderDetailsIsOpen = useSelector((state: any) => state.order_details.orderDetailsIsOpen) //переписать типизацию ****/*  */
-  console.log(orderDetailsIsOpen)
+  // console.log(orderDetailsIsOpen)
 
   // console.log(cartIsOpen);
 

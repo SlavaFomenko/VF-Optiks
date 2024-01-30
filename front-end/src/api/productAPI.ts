@@ -45,7 +45,7 @@ export const getProduct = async (
         name: name,
         category: category,
         gender: gender,
-        manufacturer: manufacturer,
+        manufactures: manufacturer,
         country: country,
         priceFrom:priceFrom,
 				priceTo:priceTo,
@@ -56,7 +56,7 @@ export const getProduct = async (
         'Content-Type': 'application/json',
       },
     })
-    // console.log(response);
+    console.log(response);
     
 		// console.log(response.data);
 		

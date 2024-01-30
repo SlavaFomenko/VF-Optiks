@@ -128,12 +128,27 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
         if (typeof data === 'object') {
           if ('Країни' in data) {
             setCountry(data['Країни']);
+          }else{
+
+            if(country !== undefined){
+              setCountry(undefined);
+            }
           }
           if ('Виробники' in data) {
-            setCountry(data['Виробники']);
+            // console.log(data['Виробники']);
+            
+            setManufacturer(data['Виробники']);
+          } else {
+            if(manufacturer !== undefined){
+              setManufacturer(undefined);
+            }
           }
           if ('Категорія' in data) {
-            setCountry(data['Категорія']);
+            setCategory(data['Категорія']);
+          }else {
+            if(category !== undefined){
+              setCategory(undefined);
+            }
           }
         }
         break;
