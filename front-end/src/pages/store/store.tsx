@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { getCategory } from '../../api/categoryAPI'
 import { getManufacturer } from '../../api/manufacturerAPI'
 import { getProduct } from '../../api/productAPI'
+import Filter from '../../components/filter/filter'
 import ProductCard from '../../components/product-card/product-card'
+import AdmSearchLine from '../../components/search-line-adm/search-line'
 import { usePaginate } from '../../hooks/paginate'
 import styles from './store.module.scss'
-import Filter from '../../components/filter/filter'
-import AdmSearchLine from '../../components/search-line-adm/search-line'
 interface StorePageProps {}
 
 interface Image {
@@ -33,10 +33,10 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
   const [products, setProducts] = useState<Product[] | null>(null)
   const [id, setId] = useState<number | undefined>(undefined)
   const [name, setName] = useState<string | undefined>(undefined)
-  const [category, setCategory] = useState<string | undefined>(undefined)
-  const [gender, setGender] = useState<Gender | undefined>(undefined)
-  const [manufacturer, setManufacturer] = useState<string | undefined>(undefined)
-  const [country, setCountry] = useState<string | undefined>(undefined)
+  const [category, setCategory] = useState<string[] | undefined>(undefined)
+  const [gender, setGender] = useState<Gender[] | undefined>(undefined)
+  const [manufacturer, setManufacturer] = useState<string[] | undefined>(undefined)
+  const [country, setCountry] = useState<string[] | undefined>(undefined)
   const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined)
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined)
   const [priceInDescendingOrder, setPriceInDescendingOrder] = useState<boolean | undefined>(undefined)
@@ -75,56 +75,75 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
       if (typeof res !== 'number') {
         setProducts(res)
       }
-    });
-  
-    const data: Record<string, string[]> = {};
-  
+    })
+
+    const data: Record<string, string[]> = {}
+
     getManufacturer('token').then(res => {
       if (typeof res !== 'number') {
         res.forEach(manufacturer => {
-          const country = manufacturer.country;
-          const manufacturerName = manufacturer.name;
-  
+          const country = manufacturer.country
+          const manufacturerName = manufacturer.name
+
           if (!data.hasOwnProperty('Країни')) {
-            data['Країни'] = [];
+            data['Країни'] = []
           }
           if (!data.hasOwnProperty('Виробники')) {
-            data['Виробники'] = [];
+            data['Виробники'] = []
           }
-  
-          const uniqueCountriesSet = new Set(data['Країни']);
-          const uniqueManufacturersSet = new Set(data['Виробники']);
-          uniqueCountriesSet.add(country);
-          uniqueManufacturersSet.add(manufacturerName);
-          data['Країни'] = Array.from(uniqueCountriesSet);
-          data['Виробники'] = Array.from(uniqueManufacturersSet);
-        });
+
+          const uniqueCountriesSet = new Set(data['Країни'])
+          const uniqueManufacturersSet = new Set(data['Виробники'])
+          uniqueCountriesSet.add(country)
+          uniqueManufacturersSet.add(manufacturerName)
+          data['Країни'] = Array.from(uniqueCountriesSet)
+          data['Виробники'] = Array.from(uniqueManufacturersSet)
+        })
       }
-    });
-  
+    })
+
     getCategory('token').then(res => {
       if (typeof res !== 'number') {
-  
         res.forEach(category => {
-          const categoryName = category.name;
-  
+          const categoryName = category.name
+
           if (!data.hasOwnProperty('Категорія')) {
-            data['Категорія'] = [];
+            data['Категорія'] = []
           }
-  
-          const uniqueCategorySet = new Set(data['Категорія']);
-          uniqueCategorySet.add(categoryName);
-          data['Категорія'] = Array.from(uniqueCategorySet);
-        });
+
+          const uniqueCategorySet = new Set(data['Категорія'])
+          uniqueCategorySet.add(categoryName)
+          data['Категорія'] = Array.from(uniqueCategorySet)
+        })
       }
       setFilterData(data)
-    });
+    })
   }, dependencies)
-  
-  const addFilterProperties = (data:any | string, type: 'filter' | 'name') =>{
-    console.log(data);
-  }
 
+  const addFilterProperties = (data: Record<string, string[]> | string, type: 'filter' | 'name') => {
+    console.log(data);
+  
+    switch (type) {
+      case 'filter':
+        if (typeof data === 'object') {
+          if ('Країни' in data) {
+            setCountry(data['Країни']);
+          }
+          if ('Виробники' in data) {
+            setCountry(data['Виробники']);
+          }
+          if ('Категорія' in data) {
+            setCountry(data['Категорія']);
+          }
+        }
+        break;
+      case 'name':
+        break;
+      default:
+        console.log('switch default');
+        break;
+    }
+  };
 
   return (
     <main className={styles.wrapper}>
@@ -133,7 +152,7 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
       </div>
       <section className={styles.product_card_wrapper}>
         <div className={styles.search_line}>
-          <AdmSearchLine setData={addFilterProperties}/>
+          <AdmSearchLine setData={addFilterProperties} />
         </div>
         <div className={styles.product_cards}>
           <ul className={styles.product_cards_list}>
