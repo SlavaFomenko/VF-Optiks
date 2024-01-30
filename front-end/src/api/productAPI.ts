@@ -43,7 +43,7 @@ export const getProduct = async (
 				page:page,
 				pageSize:limit,
         name: name,
-        category: category,
+        categories: category,
         gender: gender,
         manufactures: manufacturer,
         country: country,

@@ -174,14 +174,14 @@ router.get('', async (req, res) => {
 			page = 1,
 			pageSize = 5,
 			manufactures,
-			category,
+			categories,
 			priceFrom,
 			priceTo,
 			genders,
 			priceInDescendingOrder,
 			country,
 			name,
-		} = req.query
+		} = req.query;
 
 		let query = knexDB('Products')
 			.select({
@@ -200,38 +200,36 @@ router.get('', async (req, res) => {
 				'=',
 				'Manufacturers.manufacturer_id'
 			)
-
-		if (Array.isArray(category)) {
-			return res
-				.status(400)
-				.json({ error: 'invalid request (several categories)' })
-		}
-
-		// Добавлено: выбираем поля image_id и image_url
-		query
 			.leftJoin(
 				'ProductImages',
 				'Products.product_id',
 				'=',
 				'ProductImages.product_id'
 			)
-			.select('ProductImages.image_id', 'ProductImages.image_url')
+			.select('ProductImages.image_id', 'ProductImages.image_url');
 
-		
+		if (Array.isArray(categories)) {
+			query = query.whereIn('Categories.name', categories);
+		} else if (categories) {
+			query = query.where('Categories.name', '=', categories);
+		}
+
 		if (id) {
 			query = query.where('Products.product_id', '=', id);
 		}else {
 
 			
-			if (category) {
-				query = query.whereIn('Categories.name', [category])
+			if (categories) {
+				console.log(categories);
+				query = query.whereIn('Categories.name', categories)
 			}
 
-		if (manufactures && country) {
-			query = query
-				.whereIn('Manufacturers.name', manufactures)
-				.andWhere('Manufacturers.country', 'IN', country)
-		}
+			if (manufactures && country) {
+				query = query
+					.whereIn('Manufacturers.name', manufactures)
+					.andWhere('Manufacturers.country', 'IN', country);
+			}
+
 		
 		if (country && manufactures === undefined) {
 			query = query.whereIn('Manufacturers.country', country)
@@ -343,8 +341,6 @@ router.patch('/:productId', async (req, res) => {
 		} else {
 			return res.status(400).json({ message: 'Invalid request' })
 		}
-
-		// console.log(productId)
 
 		const {
 			name,
