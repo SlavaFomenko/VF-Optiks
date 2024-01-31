@@ -153,6 +153,9 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
         }
         break;
       case 'name':
+        if (typeof data === 'string') {
+          setName(data)
+        }
         break;
       default:
         console.log('switch default');
