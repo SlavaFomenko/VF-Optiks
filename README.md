@@ -24,7 +24,7 @@
 npm i
 npm start
 ```
-2.
+2.back-end
 ```
 npm i
 npm start
