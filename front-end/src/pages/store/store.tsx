@@ -25,11 +25,11 @@ interface Product {
   country: string
   price: number
   quantity: number
-  images: Image[] | [] // Массив изображений, который может быть пустым
+  images: Image[] | []
 }
 
 const StorePage = ({}: StorePageProps): JSX.Element => {
-  const pagination = usePaginate({ initialLimit: 17, initialPage: 1 })
+  const pagination = usePaginate({ initialLimit: 16, initialPage: 1 })
   const [products, setProducts] = useState<Product[] | null>(null)
   const [id, setId] = useState<number | undefined>(undefined)
   const [name, setName] = useState<string | undefined>(undefined)
@@ -121,47 +121,44 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
   }, dependencies)
 
   const addFilterProperties = (data: Record<string, string[]> | string, type: 'filter' | 'name') => {
-    console.log(data);
-  
+    console.log(data)
+
     switch (type) {
       case 'filter':
         if (typeof data === 'object') {
           if ('Країни' in data) {
-            setCountry(data['Країни']);
-          }else{
-
-            if(country !== undefined){
-              setCountry(undefined);
+            setCountry(data['Країни'])
+          } else {
+            if (country !== undefined) {
+              setCountry(undefined)
             }
           }
           if ('Виробники' in data) {
-            // console.log(data['Виробники']);
-            
-            setManufacturer(data['Виробники']);
+            setManufacturer(data['Виробники'])
           } else {
-            if(manufacturer !== undefined){
-              setManufacturer(undefined);
+            if (manufacturer !== undefined) {
+              setManufacturer(undefined)
             }
           }
           if ('Категорія' in data) {
-            setCategory(data['Категорія']);
-          }else {
-            if(category !== undefined){
-              setCategory(undefined);
+            setCategory(data['Категорія'])
+          } else {
+            if (category !== undefined) {
+              setCategory(undefined)
             }
           }
         }
-        break;
+        break
       case 'name':
         if (typeof data === 'string') {
           setName(data)
         }
-        break;
+        break
       default:
-        console.log('switch default');
-        break;
+        console.log('switch default')
+        break
     }
-  };
+  }
 
   return (
     <main className={styles.wrapper}>
