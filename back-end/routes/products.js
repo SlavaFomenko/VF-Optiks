@@ -2,7 +2,6 @@ const express = require('express')
 const fs = require('fs')
 const router = express.Router()
 const knexDB = require('../models/dbKnex')
-// const uploadRouter = require('./ваш_путь_к_роутеру/uploadRouter'); // замените на ваш путь
 
 const multer = require('multer')
 const  {DEFAULT_URL}  = require('../config')

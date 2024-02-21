@@ -7,13 +7,13 @@ import ProductCard from '../../components/product-card/product-card'
 import AdmSearchLine from '../../components/search-line-adm/search-line'
 import { usePaginate } from '../../hooks/paginate'
 import styles from './store.module.scss'
+
 interface StorePageProps {}
 
 interface Image {
   image_id: number
   image_url: string
 }
-
 type Gender = 'Чоловічі' | 'Жіночі' | 'Унісекс'
 
 interface Product {
@@ -39,9 +39,12 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
   const [country, setCountry] = useState<string[] | undefined>(undefined)
   const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined)
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined)
-  const [priceInDescendingOrder, setPriceInDescendingOrder] = useState<boolean | undefined>(undefined)
+  const [priceInDescendingOrder, setPriceInDescendingOrder] = useState<boolean | undefined>(true)
+  
 
   const [filterData, setFilterData] = useState<Record<string, string[]> | null>(null)
+
+  // console.log(products)
 
   const dependencies = [
     pagination.limit,
@@ -72,8 +75,15 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
       priceTo,
       priceInDescendingOrder,
     ).then(res => {
+      // console.log('hello')
+
       if (typeof res !== 'number') {
         setProducts(res)
+      }
+      if(typeof res === 'number'){
+        if(res === 404){
+          //! обработать 404
+        }
       }
     })
 
@@ -121,11 +131,10 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
   }, dependencies)
 
   const addFilterProperties = (data: Record<string, string[]> | string, type: 'filter' | 'name') => {
-    console.log(data)
-
     switch (type) {
       case 'filter':
         if (typeof data === 'object') {
+          pagination.setPage(1)
           if ('Країни' in data) {
             setCountry(data['Країни'])
           } else {
@@ -150,6 +159,7 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
         }
         break
       case 'name':
+        pagination.setPage(1)
         if (typeof data === 'string') {
           setName(data)
         }
@@ -175,6 +185,38 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
               <ProductCard key={product.id} product={product} />
             ))}
           </ul>
+
+          <div className={styles.paginate_buttons}>
+            {products && products?.length % pagination.limit === 0 ? (
+              <>
+                {pagination.page > 1 && (
+                  <button
+                    className={styles.prev_btn}
+                    onClick={() => {
+                      pagination.setPage(pagination.page - 1)
+                    }}
+                  >
+                    Назад
+                  </button>
+                )}
+                <button className={styles.next_btn} onClick={() => pagination.setPage(pagination.page + 1)}>
+                  Вперед
+                </button>
+              </>
+            ) : (
+              <button
+                className={styles.prev_btn}
+                onClick={() => {
+                  console.log(pagination.page)
+                  if (pagination.page > 1) {
+                    pagination.setPage(pagination.page - 1)
+                  }
+                }}
+              >
+                Назад
+              </button>
+            )}
+          </div>
         </div>
       </section>
     </main>

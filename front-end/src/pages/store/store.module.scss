@@ -1,46 +1,67 @@
-.wrapper{
-	width: 100%;
-	height: 100%;
-	// background-color: blue;
-	display: grid;
-	grid-template-columns: 0.2fr 1fr;
-	grid-template-rows: 1fr;
+.wrapper {
+  width: 100%;
+  height: 100%;
+  // background-color: blue;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr;
+  grid-template-rows: 1fr;
 
-	.filter{
-		// background-color: green;
-		border-right:1px solid gray ;
-		padding-top: 10px;
-		padding-right: 10px;
-	}
-	.product_card_wrapper{
-		// z-index: 15000;
-		margin: 5px;
-		overflow: hidden;
-		// background-color: red;
-		.search_line{
-			height: 60px;
-			padding:0 5px;
-			// background-color: blue;
-		}
-		.product_cards{
-			width:100%;
-			height: calc(100% - 60px);
-			background-color: white;
-			// padding-top: 20px;
-			padding:0 20px ;
-			padding-top: 20px;
-			overflow:hidden;
-			.product_cards_list{
-				width: 100%;
-				height: 100%;
-				overflow: hidden;
-				overflow-y: scroll;
-				display: grid;
-				grid-template-columns: repeat(4,1fr);
-				grid-auto-rows: 400px;
-				gap: 20px;
-				padding-bottom: 20px;
-			}
-		}
-	}
+  .filter {
+    // background-color: green;
+    border-right: 1px solid gray;
+    padding-top: 10px;
+    padding-right: 10px;
+  }
+  .product_card_wrapper {
+    margin: 5px;
+    margin-top: 15px;
+    overflow: hidden;
+    .search_line {
+      height: 60px;
+      padding: 0 5px;
+    }
+    .product_cards {
+      width: 100%;
+      height: calc(100% - 60px);
+      background-color: white;
+      padding: 0 20px;
+      padding-top: 20px;
+      overflow: hidden;
+
+      .paginate_buttons {
+        // background-color: red;
+        width: 100%;
+        height: 5%;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        button {
+          // padding: 0 px;
+          border-radius: 1000px;
+          height: 100%;
+          width: 100px;
+          border: 2px solid black;
+          transition: 0.3s ease-in-out;
+        }
+        button:hover {
+          background-color: black;
+          color: white;
+        }
+      }
+
+      .product_cards_list {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 95%;
+        overflow: hidden;
+        overflow-y: scroll;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 400px;
+        gap: 20px;
+        padding-bottom: 20px;
+      }
+    }
+  }
 }

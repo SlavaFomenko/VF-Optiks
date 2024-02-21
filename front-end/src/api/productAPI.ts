@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import {URL_PRODUCTS } from '../config/config'
+import { URL_PRODUCTS } from '../config/config'
 
 interface Image {
   image_id: number
@@ -21,51 +21,52 @@ interface Product {
 }
 
 export const getProduct = async (
-	page:number,
-	limit:number,
-	token?:string,
+  page: number,
+  limit: number,
+  token?: string,
   id?: number,
   name?: string,
   category?: string[],
   gender?: Gender[],
   manufacturer?: string[],
   country?: string[],
-	priceFrom?:number,
-	priceTo?:number,
-	priceInDescendingOrder?:boolean,
+  priceFrom?: number,
+  priceTo?: number,
+  priceInDescendingOrder?: boolean,
 ): Promise<Product[] | number> => {
-
-
   try {
     const response: AxiosResponse<Product[]> = await axios.get(URL_PRODUCTS, {
       params: {
         id: id,
-				page:page,
-				pageSize:limit,
+        page: page,
+        pageSize: limit,
         name: name,
         categories: category,
         gender: gender,
         manufactures: manufacturer,
         country: country,
-        priceFrom:priceFrom,
-				priceTo:priceTo,
-				priceInDescendingOrder:priceInDescendingOrder
+        priceFrom: priceFrom,
+        priceTo: priceTo,
+        priceInDescendingOrder: priceInDescendingOrder,
       },
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     })
-    console.log(response);
-		
+    console.log(response)
+
     return response.data
   } catch (error: AxiosError | any) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError
       if (axiosError.response) {
+        // console.log('hello')
+
         return axiosError.response.status
       }
     }
+
     console.error('Error:', error)
     return 500
   }
