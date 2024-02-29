@@ -16,6 +16,26 @@
     margin: 5px;
     margin-top: 15px;
     overflow: hidden;
+    .error_wrapper {
+      width: 100%;
+      height: calc(100vh - 100px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .error {
+        width: 40%;
+        height: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          font-size: 160%;
+          font-weight: 600;
+        }
+      }
+    }
     .search_line {
       height: 60px;
       padding: 0 5px;
@@ -29,14 +49,12 @@
       overflow: hidden;
 
       .paginate_buttons {
-        // background-color: red;
         width: 100%;
         height: 5%;
         display: flex;
         gap: 20px;
         justify-content: center;
         button {
-          // padding: 0 px;
           border-radius: 1000px;
           height: 100%;
           width: 100px;

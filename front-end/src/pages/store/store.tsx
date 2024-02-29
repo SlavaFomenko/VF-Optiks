@@ -40,7 +40,7 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
   const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined)
   const [priceTo, setPriceTo] = useState<number | undefined>(undefined)
   const [priceInDescendingOrder, setPriceInDescendingOrder] = useState<boolean | undefined>(true)
-  
+  const [is404, setIs404] = useState<boolean>(false)
 
   const [filterData, setFilterData] = useState<Record<string, string[]> | null>(null)
 
@@ -75,14 +75,14 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
       priceTo,
       priceInDescendingOrder,
     ).then(res => {
-      // console.log('hello')
-
       if (typeof res !== 'number') {
         setProducts(res)
+        setIs404(false)
       }
-      if(typeof res === 'number'){
-        if(res === 404){
-          //! обработать 404
+      if (typeof res === 'number') {
+        if (res === 404) {
+          setIs404(true)
+          console.log(404)
         }
       }
     })
@@ -169,6 +169,7 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
         break
     }
   }
+  console.log(is404)
 
   return (
     <main className={styles.wrapper}>
@@ -179,45 +180,52 @@ const StorePage = ({}: StorePageProps): JSX.Element => {
         <div className={styles.search_line}>
           <AdmSearchLine setData={addFilterProperties} />
         </div>
-        <div className={styles.product_cards}>
-          <ul className={styles.product_cards_list}>
-            {products?.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ul>
-
-          <div className={styles.paginate_buttons}>
-            {products && products?.length % pagination.limit === 0 ? (
-              <>
-                {pagination.page > 1 && (
-                  <button
-                    className={styles.prev_btn}
-                    onClick={() => {
-                      pagination.setPage(pagination.page - 1)
-                    }}
-                  >
-                    Назад
+        {!is404 ? (
+          <div className={styles.product_cards}>
+            <ul className={styles.product_cards_list}>
+              {products?.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </ul>
+            <div className={styles.paginate_buttons}>
+              {products && products?.length % pagination.limit === 0 ? (
+                <>
+                  {pagination.page > 1 && (
+                    <button
+                      className={styles.prev_btn}
+                      onClick={() => {
+                        pagination.setPage(pagination.page - 1)
+                      }}
+                    >
+                      Назад
+                    </button>
+                  )}
+                  <button className={styles.next_btn} onClick={() => pagination.setPage(pagination.page + 1)}>
+                    Вперед
                   </button>
-                )}
-                <button className={styles.next_btn} onClick={() => pagination.setPage(pagination.page + 1)}>
-                  Вперед
+                </>
+              ) : (
+                <button
+                  className={styles.prev_btn}
+                  onClick={() => {
+                    console.log(pagination.page)
+                    if (pagination.page > 1) {
+                      pagination.setPage(pagination.page - 1)
+                    }
+                  }}
+                >
+                  Назад
                 </button>
-              </>
-            ) : (
-              <button
-                className={styles.prev_btn}
-                onClick={() => {
-                  console.log(pagination.page)
-                  if (pagination.page > 1) {
-                    pagination.setPage(pagination.page - 1)
-                  }
-                }}
-              >
-                Назад
-              </button>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className={styles.error_wrapper}>
+            <div className={styles.error}>
+              <span>Нажаль товару не знайдено :(</span>
+            </div>
+          </div>
+        )}
       </section>
     </main>
   )
