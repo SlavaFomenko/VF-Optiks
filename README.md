@@ -1,31 +1,35 @@
-# Интернет-магазин
+# Online Store
 
-Данный репозиторий представляет собой полнофункциональный интернет-магазин, разработанный с использованием технологий TypeScript, HTML, SCSS, React, Redux, Express.js, Knex.js, Python и MySQL.
+This repository represents a fully functional online store developed using TypeScript, HTML, SCSS, React, Redux, Express.js, Knex.js, Python, and MySQL.
 
-## Описание
+## Description
 
-Этот проект создан с целью предоставления гибкой и масштабируемой платформы для онлайн-торговли. Используя современные технологии и паттерны разработки, я создаю  магазин, который обеспечивает удобство пользователя и эффективное управление продуктами.
+This project is created with the aim of providing a flexible and scalable platform for online commerce. By leveraging modern technologies and development patterns, I am building a store that ensures user convenience and effective product management.
 
-## Технологии
+## Technologies
 
-- **TypeScript:** Весь код проекта написан на TypeScript, что обеспечивает статическую типизацию и улучшает читаемость кода.
-- **HTML:** Верстка страниц выполнена с использованием HTML5 для обеспечения современных стандартов и семантики.
-- **SCSS:** Для стилизации компонентов использован препроцессор SCSS, что позволяет организовать стили более эффективно и модульно.
-- **React:** Интерфейс магазина построен на библиотеке React, обеспечивая динамичность и удобство использования.
-- **Redux:** Глобальное управление состоянием приложения осуществляется через Redux, что обеспечивает единый источник правды для данных.
-- **Express.js:** Серверная часть приложения реализована с использованием Express.js, обеспечивая быструю и масштабируемую обработку запросов.
-- **Knex.js:** Для работы с базой данных используется Knex.js, SQL-компонент для Node.js, обеспечивающий миграции и удобные запросы.
-- **Python:** Для реализации отправления сообщений о поступлении новогозо заказа в каждому администратору в Telegram.
-- **MySQL:** В качестве базы данных используется MySQL для эффективного хранения и извлечения данных.
+- **TypeScript:** The entire project code is written in TypeScript, which provides static typing and improves code readability.
+- **HTML:** Page layout is done using HTML5 to ensure modern standards and semantics.
+- **SCSS:** SCSS preprocessor is used for styling components, allowing for more efficient and modular organization of styles.
+- **React:** The store's interface is built on the React library, providing dynamic and user-friendly functionality.
+- **Redux:** Global state management is handled through Redux, ensuring a single source of truth for data.
+- **Express.js:** The server side of the application is implemented using Express.js, providing fast and scalable request handling.
+- **Knex.js:** Knex.js is used for database operations, providing migration support and convenient queries for Node.js.
+- **Python:** Python is used to send notifications about new orders to each administrator via Telegram.
+- **MySQL:** MySQL is used as the database for efficient data storage and retrieval.
 
-## Запуск проекта
-1.front-end
-```
-npm i
-npm start
-```
-2.back-end
-```
-npm i
-npm start
-```
+## Running the Project
+
+1. **Front-end**
+   ```bash
+   npm i
+   npm start
+   ```
+
+2. **Back-end**
+   ```bash
+   npm i
+   npm start
+   ```
+
+
